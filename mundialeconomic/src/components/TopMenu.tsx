@@ -103,7 +103,9 @@ function TopUserBar() {
             <span className="hidden sm:inline">|</span>
 
             {/* Welcome Message */}
-            <span className="hidden md:inline">Welcome To Ecommerce</span>
+            <span className="hidden md:inline">
+              Bem-vindo à Mundial Económico
+            </span>
           </div>
 
           {/* Right Side: User Actions */}
@@ -113,7 +115,7 @@ function TopUserBar() {
               className="flex items-center space-x-2 hover:text-white transition"
             >
               <User className="h-4 w-4" />
-              <span className="hidden sm:inline">My Account</span>
+              <span className="hidden sm:inline">Minha Conta</span>
             </a>
 
             <a
@@ -121,7 +123,7 @@ function TopUserBar() {
               className="flex items-center space-x-2 hover:text-white transition"
             >
               <Heart className="h-4 w-4" />
-              <span className="hidden sm:inline">My Wishlist</span>
+              <span className="hidden sm:inline">Minha Lista de Desejos</span>
             </a>
 
             <a
@@ -146,7 +148,7 @@ function TopUserBar() {
   );
 }
 {
-  /*TopBar User*/
+  /*TopBar User End*/
 }
 
 function EcommerceHeader() {
@@ -162,8 +164,12 @@ function EcommerceHeader() {
             <div className="flex items-center">
               <ShoppingCart className="h-8 w-8 text-orange-600" />
               <div className="ml-3">
-                <h1 className="text-xl font-bold text-gray-900">E-Com Shop</h1>
-                <p className="text-xs text-gray-500">Shopping Made Easy</p>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Mundial Económico
+                </h1>
+                <p className="text-xs text-gray-500">
+                  Comprar feito de maneira fácil
+                </p>
               </div>
             </div>
 
@@ -185,22 +191,6 @@ function EcommerceHeader() {
                   <Search className="h-5 w-5 text-white" />
                 </button>
               </div>
-            </div>
-
-            {/* Desktop Call Button */}
-            <div className="hidden sm:flex items-center">
-              <a
-                href="tel:+1123456789"
-                className="flex items-center space-x-3 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg transition-colors"
-              >
-                <Phone className="h-5 w-5" />
-                <div className="text-left">
-                  <div className="text-xs uppercase tracking-wider">
-                    Call Us Free
-                  </div>
-                  <div className="font-semibold">+1 123 456 789</div>
-                </div>
-              </a>
             </div>
 
             {/* Mobile Buttons */}
@@ -248,7 +238,7 @@ function EcommerceHeader() {
                   href="#"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                 >
-                  All Categories
+                  Todas Categorias
                 </a>
                 <a
                   href="#"
@@ -292,16 +282,6 @@ export default function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const incrementCart = () => {
-    setCartCount(cartCount + 1);
-  };
-
-  const decrementCart = () => {
-    if (cartCount > 0) {
-      setCartCount(cartCount - 1);
-    }
-  };
-
   return (
     <>
       <EcommerceHeader />
@@ -314,7 +294,7 @@ export default function Navbar() {
               className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 font-semibold hover:bg-orange-600 transition-colors"
             >
               <Menu size={20} />
-              CATEGORIES
+              CATEGORIAS
               <ChevronDown
                 size={18}
                 className={`transition-transform ${
@@ -354,7 +334,7 @@ export default function Navbar() {
           {/* Right Section: Shopping Cart */}
           <div className="flex items-center gap-3 bg-gray-700 text-white px-4 py-2 rounded-md">
             <ShoppingCart size={20} />
-            <span className="font-semibold">MY CART</span>
+            <span className="font-semibold">Meu Carrinho</span>
             <div className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm">
               {cartCount}
             </div>
