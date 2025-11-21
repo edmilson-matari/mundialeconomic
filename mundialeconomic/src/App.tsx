@@ -1,17 +1,18 @@
-import TopMenu from "./components/TopMenu";
-import ProductCarousel from "./components/ProductCarousel";
-import HotDeals from "./components/HotDeals";
-import Footer from "./components/Footer";
-import TopCategories from "./components/TopCategories";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import Shops from "./components/Pages/Shops";
+import Home from "./components/Pages/Home";
+
 const App = () => {
   return (
-    <div>
-      <TopMenu />
-      <ProductCarousel />
-      <HotDeals />
-      <TopCategories />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/lojas" element={<Shops />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

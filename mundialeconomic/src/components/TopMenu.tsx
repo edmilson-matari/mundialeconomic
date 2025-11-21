@@ -1,5 +1,6 @@
 ("use client");
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Menu,
   ShoppingCart,
@@ -269,14 +270,7 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(2);
 
   const categories = ["Electronics", "Clothing", "Books", "Home & Garden"];
-  const navItems = [
-    "HOME",
-    "ABOUT US",
-    "MEN",
-    "WOMEN",
-    "ELECTRONICS",
-    "CONTACT US",
-  ];
+  const navItems = ["Início", "Lojas", "Contacte-nos"];
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -320,15 +314,24 @@ export default function Navbar() {
 
           {/* Center Section: Navigation Links */}
           <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item, index) => (
-              <a
-                key={index}
-                href="#"
-                className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
-              >
-                {item}
-              </a>
-            ))}
+            <Link
+              to={"/"}
+              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
+            >
+              {navItems[0]}
+            </Link>
+            <Link
+              to={"/lojas"}
+              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
+            >
+              {navItems[1]}
+            </Link>
+            <Link
+              to={"/lojas"}
+              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
+            >
+              {navItems[2]}
+            </Link>
           </div>
 
           {/* Right Section: Shopping Cart */}
