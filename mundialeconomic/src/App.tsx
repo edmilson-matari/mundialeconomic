@@ -1,4 +1,5 @@
 import {
+  Link,
   RouterProvider,
   createBrowserRouter,
   redirect,
@@ -30,10 +31,13 @@ const App = () => {
   function ProtectedLayout() {
     const { isAdmin, loading } = useAuth();
 
-    if (loading) {
+    if (!isAdmin) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
-          <Loader2 className="w-10 h-10 animate-spin text-gray-600" />
+          <h1>Not in Admin session</h1>
+          {loading && (
+            <Loader2 className="w-10 h-10 animate-spin text-gray-600" />
+          )}
         </div>
       );
     }

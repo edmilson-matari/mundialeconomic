@@ -28,9 +28,14 @@ interface MenuItem {
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  logOut: () => void;
 }
 
-export default function AdminSidebar({ isOpen, onClose }: SidebarProps) {
+export default function AdminSidebar({
+  isOpen,
+  onClose,
+  logOut,
+}: SidebarProps) {
   const menuItems = [
     {
       icon: <LayoutDashboard className="w-5 h-5" />,
@@ -123,7 +128,10 @@ export default function AdminSidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* Logout */}
         <div className="p-4 border-t">
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg">
+          <button
+            onClick={logOut}
+            className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg"
+          >
             <LogOut className="w-5 h-5" />
             <span>Sair</span>
           </button>

@@ -16,6 +16,9 @@ export default function StoreDetail() {
     const timer = setTimeout(() => {
       setStore({
         id: Number(id),
+        owner: "Jorge",
+        email: "jondoe@gmail.com",
+        phone: "34343434",
         name: "Luxe Fashion Boutique",
         logo: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&h=1000&fit=crop",
         banner:

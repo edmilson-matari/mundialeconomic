@@ -1,7 +1,7 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import supabase from "../supabase-client";
+import type { StoreData } from "./Types/store";
 
 interface Store {
   id: number;
@@ -14,88 +14,35 @@ interface Store {
   badge?: "new" | "verified" | "top" | string;
 }
 
-const mockStores: Store[] = [
-  {
-    id: 1,
-    name: "Luxe Fashion Boutique",
-    logo: "https://images.unsplash.com/photo-1607082349566-5079286ebb72?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1441986300917-6467280960d7?w=1400&h=600&fit=crop",
-    category: "Fashion",
-    rating: 4.8,
-    totalProducts: 342,
-    badge: "verified",
-  },
-  {
-    id: 2,
-    name: "TechTrend Electronics",
-    logo: "https://images.unsplash.com/photo-1519389951296-1303fe2fd539?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=1400&h=600&fit=crop",
-    category: "Electronics",
-    rating: 4.9,
-    totalProducts: 892,
-    badge: "top",
-  },
-  {
-    id: 3,
-    name: "Urban Sneakers Co.",
-    logo: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=1400&h=600&fit=crop",
-    category: "Footwear",
-    rating: 4.7,
-    totalProducts: 156,
-    badge: "new",
-  },
-  {
-    id: 4,
-    name: "Glow Beauty Studio",
-    logo: "https://images.unsplash.com/photo-1596462502278-ffb48ada4f7b?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1571781926291-c477808397bb?w=1400&h=600&fit=crop",
-    category: "Beauty",
-    rating: 4.9,
-    totalProducts: 428,
-  },
-  {
-    id: 5,
-    name: "Gadget Galaxy",
-    logo: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1400&h=600&fit=crop",
-    category: "Electronics",
-    rating: 4.6,
-    totalProducts: 620,
-  },
-  {
-    id: 6,
-    name: "Vintage Vibes",
-    logo: "https://images.unsplash.com/photo-1551489186-cf8726f514f8?w=200&h=200&fit=crop",
-    banner:
-      "https://images.unsplash.com/photo-1508427953056-b00b8d78ebf4?w=1400&h=600&fit=crop",
-    category: "Fashion",
-    rating: 4.5,
-    totalProducts: 298,
-  },
-  // Duplicated for pagination demo
-].flatMap((s, i) =>
-  Array(8)
-    .fill(null)
-    .map((_, j) => ({
-      ...s,
-      id: s.id + j * 10,
-      name: `${s.name} #${i + j + 1}`,
-    }))
-);
-
 export default function AllStoresList() {
+  const [stores, setStores] = useState<StoreData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
   const [currentPage, setCurrentPage] = useState(1);
   const storesPerPage = 12;
 
-  const filteredAndSorted = mockStores
+  useEffect(() => {
+    const loadStores = async () => {
+      setLoading(true);
+      console.log("Tentando buscar lojas..."); // ← veja no console
+
+      const { data, error } = await supabase
+        .from("stores")
+        .select("*")
+        .order("id", { ascending: false });
+      if (error) {
+        console.log("Error fetching stores: ", error);
+      } else {
+        setStores(data as StoreData[]);
+      }
+      setLoading(false);
+    };
+    loadStores();
+  }, []);
+
+  const filteredAndSorted = stores
     .filter(
       (store) =>
         store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -237,7 +184,7 @@ export default function AllStoresList() {
                   </div>
 
                   <p className="text-sm text-gray-500 mt-2">
-                    {store.totalProducts} products
+                    {store.totalProducts} Productos
                   </p>
 
                   <button className="mt-6 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">

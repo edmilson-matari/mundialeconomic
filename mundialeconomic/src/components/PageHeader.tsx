@@ -3,6 +3,8 @@ import { Plus, ChevronRight } from "lucide-react";
 import { clsx } from "clsx";
 import { useState } from "react";
 import AddShopModal from "../components/AddShopModal"; // vamos criar agora
+import type { StoreData } from "./Types/store";
+import supabase from "../supabase-client.ts";
 
 interface PageHeaderProps {
   title: string;
@@ -20,6 +22,21 @@ export default function PageHeader({
   showAddShop = false,
 }: PageHeaderProps) {
   const [isAddShopOpen, setIsAddShopOpen] = useState(false);
+  const [store, setStore] = useState<StoreData[]>([]);
+
+  const fetch = async () => {
+    const { data, error } = await supabase.from("Admin").select("*");
+
+    if (error) {
+      console.log("error fetching the data: ", error);
+    } else {
+      console.log(data);
+    }
+  };
+
+  const handleNewStore = (newStore: any) => {
+    setStore((prev) => [newStore, ...prev]); // ← Atualiza em tempo real
+  };
 
   return (
     <>
@@ -68,6 +85,7 @@ export default function PageHeader({
         <AddShopModal
           isOpen={isAddShopOpen}
           onClose={() => setIsAddShopOpen(false)}
+          onStoreAdded={handleNewStore}
         />
       )}
     </>

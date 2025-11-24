@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   Filter,
@@ -19,60 +19,45 @@ import {
   ToggleRight,
 } from "lucide-react";
 import { format } from "date-fns";
+import supabase from "../supabase-client";
+import type { StoreData } from "./Types/store";
 
 export default function ProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [stores, setStores] = useState<StoreData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(
     null
   );
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<StoreData | null>(
+    null
+  );
   const [editingProduct, setEditingProduct] = useState<any>(null);
 
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      productName: "Transparent Sunglasses",
-      storeName: "Luxe Fashion Boutique",
-      storeLogo: "https://randomuser.me/api/portraits/women/44.jpg",
-      category: "Acessórios",
-      addedDate: new Date("2025-07-19"),
-      stock: 235,
-      status: "active" as const,
-      sku: "LUX-SUN-001",
-      description:
-        "Óculos de sol transparentes com proteção UV400 e design moderno.",
-    },
-    {
-      id: 2,
-      productName: "Leather Crossbody Bag",
-      storeName: "Urban Style Co.",
-      storeLogo: "https://randomuser.me/api/portraits/men/32.jpg",
-      category: "Bolsas",
-      addedDate: new Date("2025-07-18"),
-      stock: 56,
-      status: "active" as const,
-      sku: "URB-BAG-045",
-      description: "Bolsa transversal em couro legítimo com alça ajustável.",
-    },
-    {
-      id: 3,
-      productName: "Polarized Aviator",
-      storeName: "Vision Pro Ótica",
-      storeLogo: "https://randomuser.me/api/portraits/women/68.jpg",
-      category: "Óculos",
-      addedDate: new Date("2025-07-17"),
-      stock: 0,
-      status: "inactive" as const,
-      sku: "VIS-AVI-112",
-      description: "Óculos aviador polarizado com armação em metal premium.",
-    },
-  ]);
+  useEffect(() => {
+    const loadStores = async () => {
+      setLoading(true);
+      console.log("Tentando buscar lojas..."); // ← veja no console
 
-  const filtered = products.filter(
+      const { data, error } = await supabase
+        .from("stores")
+        .select("*")
+        .order("id", { ascending: false });
+      if (error) {
+        console.log("Error fetching stores: ", error);
+      } else {
+        setStores(data as StoreData[]);
+      }
+      setLoading(false);
+    };
+    loadStores();
+  }, []);
+
+  const filtered = stores.filter(
     (p) =>
-      p.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.storeName.toLowerCase().includes(searchTerm.toLowerCase())
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.owner.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDuplicate = (p: any) => {
@@ -82,15 +67,24 @@ export default function ProductsTable() {
       productName: `${p.productName} (cópia)`,
       addedDate: new Date(),
     };
-    setProducts((prev) => [...prev, copy]);
+    setStores((prev) => [...prev, copy]);
   };
 
   const handleSaveEdit = () => {
-    setProducts((prev) =>
+    setStores((prev) =>
       prev.map((p) => (p.id === editingProduct.id ? editingProduct : p))
     );
     setEditingProduct(null);
     alert("Produto atualizado com sucesso!");
+  };
+
+  const deleteStore = async (id: Number) => {
+    const { data, error } = await supabase.from("stores").delete().eq("id", id);
+    if (error) {
+      console.log("error deleting store: ", error);
+    } else {
+      setStores((prev) => prev.filter((store: StoreData) => store.id !== id));
+    }
   };
 
   return (
@@ -157,17 +151,13 @@ export default function ProductsTable() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <img
-                          src={p.storeLogo}
-                          alt={p.storeName}
+                          src={p.logo}
+                          alt={p.name}
                           className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200"
                         />
                         <div>
-                          <p className="font-medium text-gray-900">
-                            {p.storeName}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            {p.productName}
-                          </p>
+                          <p className="font-medium text-gray-900">{p.name}</p>
+                          <p className="text-sm text-gray-600">{p.owner}</p>
                         </div>
                       </div>
                     </td>
@@ -177,12 +167,12 @@ export default function ProductsTable() {
                     <td className="px-6 py-4">
                       <span
                         className={
-                          p.stock === 0
+                          p.totalProducts === 0
                             ? "text-red-600 font-medium"
                             : "text-gray-900"
                         }
                       >
-                        {p.stock === 0 ? "Esgotado" : p.stock}
+                        {p.totalProducts === 0 ? "Esgotado" : p.totalProducts}
                       </span>
                     </td>
                     <td className="px-6 py-4">
@@ -241,7 +231,7 @@ export default function ProductsTable() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold">Detalhes do Produto</h2>
+              <h2 className="text-xl font-bold">Detalhes da Loja</h2>
               <button
                 onClick={() => setQuickViewProduct(null)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -252,16 +242,16 @@ export default function ProductsTable() {
             <div className="p-6 space-y-6">
               <div className="flex gap-6">
                 <img
-                  src={quickViewProduct.storeLogo}
-                  alt={quickViewProduct.storeName}
+                  src={quickViewProduct.logo}
+                  alt={quickViewProduct.name}
                   className="w-24 h-24 rounded-full ring-4 ring-gray-100"
                 />
                 <div>
                   <h3 className="text-2xl font-bold">
-                    {quickViewProduct.productName}
+                    {quickViewProduct.name}
                   </h3>
                   <p className="text-lg text-gray-600 mt-1">
-                    {quickViewProduct.storeName}
+                    {quickViewProduct.owner}
                   </p>
                   <p className="text-sm text-gray-500 mt-3">
                     {quickViewProduct.description}
@@ -274,7 +264,9 @@ export default function ProductsTable() {
                   <Package className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-500">SKU</p>
-                    <p className="font-medium">{quickViewProduct.sku}</p>
+                    <p className="font-medium">
+                      {quickViewProduct.totalProducts}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -288,9 +280,7 @@ export default function ProductsTable() {
                   <Calendar className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-500">Adicionado</p>
-                    <p className="font-medium">
-                      {format(quickViewProduct.addedDate, "dd 'de' MMMM, yyyy")}
-                    </p>
+                    <p className="font-medium">{quickViewProduct.joinedDate}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -299,12 +289,14 @@ export default function ProductsTable() {
                     <p className="text-sm text-gray-500">Estoque</p>
                     <p
                       className={`font-medium ${
-                        quickViewProduct.stock === 0 ? "text-red-600" : ""
+                        quickViewProduct.totalProducts === 0
+                          ? "text-red-600"
+                          : ""
                       }`}
                     >
-                      {quickViewProduct.stock === 0
+                      {quickViewProduct.totalProducts === 0
                         ? "Esgotado"
-                        : quickViewProduct.stock + " unidades"}
+                        : quickViewProduct.totalProducts + " unidades"}
                     </p>
                   </div>
                 </div>
@@ -319,7 +311,7 @@ export default function ProductsTable() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold">Editar Produto</h2>
+              <h2 className="text-xl font-bold">Editar Loja</h2>
               <button
                 onClick={() => setEditingProduct(null)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -330,7 +322,7 @@ export default function ProductsTable() {
             <div className="p-6 space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nome do Produto
+                  Nome da Loja
                 </label>
                 <input
                   type="text"
@@ -418,7 +410,7 @@ export default function ProductsTable() {
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
-            <h3 className="text-lg font-semibold mb-3">Excluir produto?</h3>
+            <h3 className="text-lg font-semibold mb-3">Excluir Loja?</h3>
             <p className="text-gray-600 text-sm mb-6">
               Esta ação não pode ser desfeita.
             </p>
@@ -431,9 +423,7 @@ export default function ProductsTable() {
               </button>
               <button
                 onClick={() => {
-                  setProducts((prev) =>
-                    prev.filter((p) => p.id !== showDeleteConfirm)
-                  );
+                  deleteStore(showDeleteConfirm);
                   setShowDeleteConfirm(null);
                 }}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"

@@ -1,19 +1,26 @@
-"use client";
-
 import { useState } from "react";
 import AdminSidebar from "../AdminSidebar";
 import AdminNavbar from "../AdminNav";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Mobile only
+  const { isAdmin, logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
       <AdminSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        logOut={handleLogout}
       />
 
       {/* Main Content */}
