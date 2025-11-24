@@ -1,0 +1,449 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Search,
+  Filter,
+  ChevronDown,
+  Download,
+  Eye,
+  Edit,
+  Copy,
+  Trash2,
+  X,
+  Save,
+  Package,
+  Store,
+  Calendar,
+  Hash,
+  ToggleRight,
+} from "lucide-react";
+import { format } from "date-fns";
+
+export default function ProductsTable() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(
+    null
+  );
+  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
+
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      productName: "Transparent Sunglasses",
+      storeName: "Luxe Fashion Boutique",
+      storeLogo: "https://randomuser.me/api/portraits/women/44.jpg",
+      category: "Acessórios",
+      addedDate: new Date("2025-07-19"),
+      stock: 235,
+      status: "active" as const,
+      sku: "LUX-SUN-001",
+      description:
+        "Óculos de sol transparentes com proteção UV400 e design moderno.",
+    },
+    {
+      id: 2,
+      productName: "Leather Crossbody Bag",
+      storeName: "Urban Style Co.",
+      storeLogo: "https://randomuser.me/api/portraits/men/32.jpg",
+      category: "Bolsas",
+      addedDate: new Date("2025-07-18"),
+      stock: 56,
+      status: "active" as const,
+      sku: "URB-BAG-045",
+      description: "Bolsa transversal em couro legítimo com alça ajustável.",
+    },
+    {
+      id: 3,
+      productName: "Polarized Aviator",
+      storeName: "Vision Pro Ótica",
+      storeLogo: "https://randomuser.me/api/portraits/women/68.jpg",
+      category: "Óculos",
+      addedDate: new Date("2025-07-17"),
+      stock: 0,
+      status: "inactive" as const,
+      sku: "VIS-AVI-112",
+      description: "Óculos aviador polarizado com armação em metal premium.",
+    },
+  ]);
+
+  const filtered = products.filter(
+    (p) =>
+      p.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.storeName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleDuplicate = (p: any) => {
+    const copy = {
+      ...p,
+      id: Date.now(),
+      productName: `${p.productName} (cópia)`,
+      addedDate: new Date(),
+    };
+    setProducts((prev) => [...prev, copy]);
+  };
+
+  const handleSaveEdit = () => {
+    setProducts((prev) =>
+      prev.map((p) => (p.id === editingProduct.id ? editingProduct : p))
+    );
+    setEditingProduct(null);
+    alert("Produto atualizado com sucesso!");
+  };
+
+  return (
+    <>
+      <div className="space-y-6">
+        {/* Search + Actions */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="relative max-w-md flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Buscar por produto ou loja..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
+          <div className="flex gap-3">
+            <button className="flex items-center gap-2 px-4 py-3 border rounded-xl text-sm font-medium hover:bg-gray-50">
+              <Filter className="w-4 h-4" />
+              Mais Filtros
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            <button className="flex items-center gap-2 px-5 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800">
+              <Download className="w-4 h-4" />
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="bg-white rounded-2xl border overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="px-6 py-4 text-left">
+                    <input type="checkbox" className="rounded" />
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    Loja & Produto
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    Categoria
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    Estoque
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    Status
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    Ações
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {filtered.map((p) => (
+                  <tr key={p.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <input type="checkbox" className="rounded" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={p.storeLogo}
+                          alt={p.storeName}
+                          className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200"
+                        />
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {p.storeName}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {p.productName}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {p.category}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={
+                          p.stock === 0
+                            ? "text-red-600 font-medium"
+                            : "text-gray-900"
+                        }
+                      >
+                        {p.stock === 0 ? "Esgotado" : p.stock}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          p.status === "active"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {p.status === "active" ? "Ativo" : "Inativo"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => setQuickViewProduct(p)}
+                          className="p-2 hover:bg-blue-50 rounded-lg transition group"
+                          title="Visualizar"
+                        >
+                          <Eye className="w-4 h-4 text-gray-600 group-hover:text-blue-600" />
+                        </button>
+                        <button
+                          onClick={() => setEditingProduct({ ...p })}
+                          className="p-2 hover:bg-green-50 rounded-lg transition group"
+                          title="Editar"
+                        >
+                          <Edit className="w-4 h-4 text-gray-600 group-hover:text-green-600" />
+                        </button>
+                        <button
+                          onClick={() => handleDuplicate(p)}
+                          className="p-2 hover:bg-purple-50 rounded-lg transition group"
+                          title="Duplicar"
+                        >
+                          <Copy className="w-4 h-4 text-gray-600 group-hover:text-purple-600" />
+                        </button>
+                        <button
+                          onClick={() => setShowDeleteConfirm(p.id)}
+                          className="p-2 hover:bg-red-50 rounded-lg transition group"
+                          title="Excluir"
+                        >
+                          <Trash2 className="w-4 h-4 text-red-600 group-hover:text-red-700" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-bold">Detalhes do Produto</h2>
+              <button
+                onClick={() => setQuickViewProduct(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="flex gap-6">
+                <img
+                  src={quickViewProduct.storeLogo}
+                  alt={quickViewProduct.storeName}
+                  className="w-24 h-24 rounded-full ring-4 ring-gray-100"
+                />
+                <div>
+                  <h3 className="text-2xl font-bold">
+                    {quickViewProduct.productName}
+                  </h3>
+                  <p className="text-lg text-gray-600 mt-1">
+                    {quickViewProduct.storeName}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-3">
+                    {quickViewProduct.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-3">
+                  <Package className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-500">SKU</p>
+                    <p className="font-medium">{quickViewProduct.sku}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Store className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-500">Categoria</p>
+                    <p className="font-medium">{quickViewProduct.category}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-500">Adicionado</p>
+                    <p className="font-medium">
+                      {format(quickViewProduct.addedDate, "dd 'de' MMMM, yyyy")}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Hash className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-500">Estoque</p>
+                    <p
+                      className={`font-medium ${
+                        quickViewProduct.stock === 0 ? "text-red-600" : ""
+                      }`}
+                    >
+                      {quickViewProduct.stock === 0
+                        ? "Esgotado"
+                        : quickViewProduct.stock + " unidades"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editingProduct && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-bold">Editar Produto</h2>
+              <button
+                onClick={() => setEditingProduct(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nome do Produto
+                </label>
+                <input
+                  type="text"
+                  value={editingProduct.productName}
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      productName: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Estoque
+                </label>
+                <input
+                  type="number"
+                  value={editingProduct.stock}
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      stock: Number(e.target.value),
+                    })
+                  }
+                  className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() =>
+                      setEditingProduct({ ...editingProduct, status: "active" })
+                    }
+                    className={`px-4 py-2 rounded-lg font-medium transition ${
+                      editingProduct.status === "active"
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-200 text-gray-700"
+                    }`}
+                  >
+                    Ativo
+                  </button>
+                  <button
+                    onClick={() =>
+                      setEditingProduct({
+                        ...editingProduct,
+                        status: "inactive",
+                      })
+                    }
+                    className={`px-4 py-2 rounded-lg font-medium transition ${
+                      editingProduct.status === "inactive"
+                        ? "bg-red-600 text-white"
+                        : "bg-gray-200 text-gray-700"
+                    }`}
+                  >
+                    Inativo
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
+              <button
+                onClick={() => setEditingProduct(null)}
+                className="px-5 py-3 border rounded-xl hover:bg-gray-100"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                className="px-5 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 flex items-center gap-2"
+              >
+                <Save className="w-4 h-4" />
+                Salvar Alterações
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+            <h3 className="text-lg font-semibold mb-3">Excluir produto?</h3>
+            <p className="text-gray-600 text-sm mb-6">
+              Esta ação não pode ser desfeita.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  setProducts((prev) =>
+                    prev.filter((p) => p.id !== showDeleteConfirm)
+                  );
+                  setShowDeleteConfirm(null);
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

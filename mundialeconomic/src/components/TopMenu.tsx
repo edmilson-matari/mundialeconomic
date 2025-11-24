@@ -327,7 +327,7 @@ export default function Navbar() {
               {navItems[1]}
             </Link>
             <Link
-              to={"/lojas"}
+              to={"/shops-details"}
               className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
             >
               {navItems[2]}
