@@ -11,21 +11,17 @@ import {
   Copy,
   Trash2,
   X,
-  Save,
   Package,
   Store,
   Calendar,
   Hash,
-  ToggleRight,
 } from "lucide-react";
-import { format } from "date-fns";
 import supabase from "../supabase-client";
 import type { StoreData } from "./Types/store";
 import EditStoreModal from "./EditStoreModal";
 
 export default function ProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [stores, setStores] = useState<StoreData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(
@@ -80,7 +76,7 @@ export default function ProductsTable() {
   };
 
   const deleteStore = async (id: Number) => {
-    const { data, error } = await supabase.from("stores").delete().eq("id", id);
+    const { error } = await supabase.from("stores").delete().eq("id", id);
     if (error) {
       console.log("error deleting store: ", error);
     } else {

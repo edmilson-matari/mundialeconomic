@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProductCard from "../ProductCard";
 import HeroBanner from "../HeroBanner";
-import type { ProductDetail } from "../Types/product";
 import type { StoreData } from "../Types/store";
 import { Star, Package } from "lucide-react";
 import supabase from "../../supabase-client";
@@ -11,7 +10,6 @@ export default function StoreDetail() {
   const { id } = useParams<{ id: string }>();
   if (!id) throw new Error("ID não encontrada");
   const [store, setStore] = useState<StoreData | null>(null);
-  const [products, setProducts] = useState<ProductDetail[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

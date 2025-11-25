@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type { StoreData } from "./Types/store";
 import { ArrowLeft, Store, MapPin, Clock, Shield } from "lucide-react";
 

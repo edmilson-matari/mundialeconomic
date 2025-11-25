@@ -9,7 +9,7 @@ interface Product {
   id?: string;
   productName: string;
   stock: number;
-  status: "active" | "inactive";
+  status: boolean;
 }
 
 interface NewProduct {
@@ -212,10 +212,10 @@ export default function EditStoreModal({
               <div className="flex gap-3">
                 <button
                   onClick={() =>
-                    setEditingProduct({ ...editingProduct, status: "active" })
+                    setEditingProduct({ ...editingProduct, status: true })
                   }
                   className={`px-5 py-2.5 rounded-lg font-medium transition ${
-                    editingProduct.status === "active"
+                    editingProduct.status === true
                       ? "bg-green-600 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
@@ -224,10 +224,10 @@ export default function EditStoreModal({
                 </button>
                 <button
                   onClick={() =>
-                    setEditingProduct({ ...editingProduct, status: "inactive" })
+                    setEditingProduct({ ...editingProduct, status: false })
                   }
                   className={`px-5 py-2.5 rounded-lg font-medium transition ${
-                    editingProduct.status === "inactive"
+                    editingProduct.status === false
                       ? "bg-red-600 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
