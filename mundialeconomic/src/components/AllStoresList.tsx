@@ -2,17 +2,7 @@ import { useEffect, useState } from "react";
 import { Search, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import supabase from "../supabase-client";
 import type { StoreData } from "./Types/store";
-
-interface Store {
-  id: number;
-  name: string;
-  logo: string;
-  banner: string;
-  category: string;
-  rating: number;
-  totalProducts: number;
-  badge?: "new" | "verified" | "top" | string;
-}
+import { Link } from "react-router-dom";
 
 export default function AllStoresList() {
   const [stores, setStores] = useState<StoreData[]>([]);
@@ -103,12 +93,23 @@ export default function AllStoresList() {
     );
   };
 
+  if (loading || !stores) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="mt-4 text-gray-600 font-medium">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section className="py-12 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">All Stores</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">Lojas</h1>
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="relative w-full lg:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -131,14 +132,14 @@ export default function AllStoresList() {
               }}
               className="px-6 py-3 border border-gray-300 rounded-xl bg-white focus:outline-none focus:border-orange-500"
             >
-              <option value="popular">Most Popular</option>
-              <option value="newest">Newest First</option>
-              <option value="rating">Highest Rated</option>
-              <option value="products">Most Products</option>
-              <option value="name">Name A-Z</option>
+              <option value="popular">Mais populares</option>
+              <option value="newest">Novas</option>
+              <option value="rating">Melhor rankeada</option>
+              <option value="products">Mais Productos</option>
+              <option value="name">Nome de A-Z</option>
             </select>
           </div>
-          <p className="text-gray-600 mt-4">{totalStores} stores found</p>
+          <p className="text-gray-600 mt-4">{totalStores} Lojas encontradas</p>
         </div>
 
         {/* 3 PER ROW GRID */}
@@ -158,7 +159,13 @@ export default function AllStoresList() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 {store.badge && (
                   <div className="absolute top-4 left-4">
-                    {getBadge(store.badge)}
+                    {getBadge(
+                      store.badge === "new"
+                        ? "new"
+                        : store.badge === "verified"
+                        ? "verified"
+                        : "top"
+                    )}
                   </div>
                 )}
               </div>
@@ -186,10 +193,11 @@ export default function AllStoresList() {
                   <p className="text-sm text-gray-500 mt-2">
                     {store.totalProducts} Productos
                   </p>
-
-                  <button className="mt-6 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">
-                    Visit Store
-                  </button>
+                  <Link to={`/lojas/${store.id}`}>
+                    <button className="mt-6 w-full bg-orange-600 hover:cursor-pointer hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">
+                      Visitar Loja
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

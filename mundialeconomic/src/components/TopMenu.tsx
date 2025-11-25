@@ -157,7 +157,6 @@ function EcommerceHeader() {
 
   return (
     <>
-      <TopUserBar />
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -265,7 +264,7 @@ function EcommerceHeader() {
   /*E-commerce header end*/
 }
 
-export default function Navbar() {
+function MenuNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [cartCount, setCartCount] = useState(2);
 
@@ -278,7 +277,6 @@ export default function Navbar() {
 
   return (
     <>
-      <EcommerceHeader />
       <nav className="bg-white shadow-md">
         <div className="flex items-center justify-between px-4 py-4 md:px-8">
           {/* Left Section: Categories Dropdown */}
@@ -357,6 +355,18 @@ export default function Navbar() {
           ))}
         </div>
       </nav>
+    </>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <>
+      <TopUserBar />
+      <EcommerceHeader />
+      <div className="sticky top-0 z-50">
+        <MenuNav />
+      </div>
     </>
   );
 }

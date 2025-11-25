@@ -11,5 +11,6 @@ export interface ProductDetail {
   oldPrice?: number;
   badge?: { type: "new"; text: "NEW" } | { type: "discount"; percent: number };
   image: string;
-  store: Store;
+  stock: number;
+  status: "active" | "inactive";
 }

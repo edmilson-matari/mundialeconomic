@@ -1,5 +1,4 @@
 import {
-  Link,
   RouterProvider,
   createBrowserRouter,
   redirect,
@@ -62,6 +61,10 @@ const App = () => {
           element: <Home />,
         },
         {
+          path: "lojas/:id",
+          element: <ShopsDetails />,
+        },
+        {
           path: "/lojas",
           element: <Shops />,
         },
@@ -76,14 +79,6 @@ const App = () => {
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-    /*<BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/lojas" element={<Shops />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>*/
   );
 };
 

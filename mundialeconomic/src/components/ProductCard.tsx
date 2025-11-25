@@ -2,15 +2,21 @@
 
 import { Star, Percent } from "lucide-react";
 import type { ProductDetail } from "./Types/product";
+import type { StoreData } from "./Types/store";
 
 // Update your type to include badge
 
 interface ProductCardProps {
   product: ProductDetail;
   inStore: boolean;
+  store: StoreData;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, inStore }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  inStore,
+  store,
+}) => {
   const renderStars = (rating: number) => (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
@@ -33,8 +39,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inStore }) => {
           {/* Store Logo */}
           <div className="absolute top-3 left-3 z-10">
             <img
-              src={product.store.logo}
-              alt={product.store.name}
+              src={store.logo}
+              alt={store.name}
               className="w-11 h-11 rounded-full border-2 border-white shadow-lg object-cover"
             />
           </div>
@@ -65,17 +71,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inStore }) => {
         {/* Content */}
         <div className="p-4">
           <p className="text-xs text-orange-600 font-medium truncate">
-            from {product.store.name}
+            from {store.name}
           </p>
           <h3 className="text-sm font-medium text-gray-800 mt-1 line-clamp-2 min-h-10">
             {product.productName}
           </h3>
 
           <div className="flex items-center gap-1.5 mt-2">
-            {renderStars(product.store.rating)}
-            <span className="text-xs text-gray-500">
-              ({product.store.rating})
-            </span>
+            {renderStars(5)}
+            <span className="text-xs text-gray-500">({89})</span>
           </div>
 
           <div className="mt-3 flex items-center gap-2">
@@ -92,11 +96,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, inStore }) => {
           {/* Compact Buttons */}
           <div className="mt-4 flex gap-2">
             <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium py-2 rounded-md transition">
-              Add to Cart
+              Adicionar ao carrinho
             </button>
             {inStore && (
               <button className="px-3 border border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 text-xs rounded-md transition">
-                Store
+                Visitar Loja
               </button>
             )}
           </div>

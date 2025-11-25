@@ -24,12 +24,12 @@ const HeroBanner: React.FC<StoreProps> = ({ store }) => {
 
         {/* Back Button */}
         <Link
-          to="/stores"
+          to="/lojas"
           className="absolute top-4 left-4 z-20 bg-white/95 hover:bg-white text-gray-800 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full flex items-center gap-2.5 font-medium shadow-xl transition-all hover:scale-105"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span className="hidden sm:inline">Back to Stores</span>
-          <span className="sm:hidden">Back</span>
+          <span className="hidden sm:inline">Voltar a lojas</span>
+          <span className="sm:hidden">Voltar</span>
         </Link>
 
         {/* Store Info – Bottom Section */}
@@ -67,7 +67,7 @@ const HeroBanner: React.FC<StoreProps> = ({ store }) => {
                   </span>
                   <span className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
-                    Joined {store.joinedDate}
+                    Juntou-se em {store.joinedDate}
                   </span>
                 </div>
               </div>

@@ -1,3 +1,5 @@
+import type { ProductDetail } from "./product";
+
 export interface StoreData {
   id: number;
   owner: string;
@@ -16,4 +18,5 @@ export interface StoreData {
   email: string;
   badge?: string;
   status: string;
+  products: ProductDetail[];
 }

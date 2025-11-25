@@ -1,116 +1,33 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ProductCard from "../ProductCard";
 import HeroBanner from "../HeroBanner";
 import type { ProductDetail } from "../Types/product";
 import type { StoreData } from "../Types/store";
 import { Star, Package } from "lucide-react";
+import supabase from "../../supabase-client";
 
 export default function StoreDetail() {
   const { id } = useParams<{ id: string }>();
+  if (!id) throw new Error("ID não encontrada");
   const [store, setStore] = useState<StoreData | null>(null);
   const [products, setProducts] = useState<ProductDetail[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setStore({
-        id: Number(id),
-        owner: "Jorge",
-        email: "jondoe@gmail.com",
-        phone: "34343434",
-        name: "Luxe Fashion Boutique",
-        logo: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&h=1000&fit=crop",
-        banner:
-          "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&h=1000&fit=crop",
-        category: "Women's Fashion",
-        rating: 4.8,
-        totalReviews: 842,
-        totalProducts: 342,
-        joinedDate: "March 2023",
-        location: "Los Angeles, USA",
-        description:
-          "Premium fashion for the modern woman. Curated collections of dresses, bags, shoes & accessories from top designers.",
-        isVerified: true,
-      });
+    const loadStore = async () => {
+      setLoading(true);
+      const idNum: Number = parseInt(id);
+      const { data } = await supabase
+        .from("stores")
+        .select("*, products (*)")
+        .eq("id", idNum)
+        .single();
+      if (data) setStore(data);
+    };
 
-      setProducts([
-        {
-          id: 1,
-          productName: "Leather Crossbody Bag",
-          price: 89,
-          image:
-            "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&h=1000&fit=crop",
-          store: {
-            name: "Luxe Fashion Boutique",
-            logo: "https://images.unsplash.com/photo-1607082349566-5079286ebb72?w=80&h=80&fit=crop",
-            rating: 4.8,
-          },
-        },
-        {
-          id: 2,
-          productName: "Wireless ANC Headphones",
-          price: 199,
-          image:
-            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=1000&fit=crop",
-          store: {
-            name: "TechTrend Electronics",
-            logo: "https://images.unsplash.com/photo-1519389951296-1303fe2fd539?w=80&h=80&fit=crop",
-            rating: 4.9,
-          },
-        },
-        {
-          id: 3,
-          productName: "Minimalist White Sneakers",
-          price: 119,
-          image:
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=1000&fit=crop",
-          store: {
-            name: "Urban Sneakers Co.",
-            logo: "https://images.unsplash.com/photo-1605406575497-940d57b521f7?w=80&h=80&fit=crop",
-            rating: 4.7,
-          },
-        },
-        {
-          id: 4,
-          productName: "Vitamin C Glow Serum",
-          price: 59,
-          image:
-            "https://images.unsplash.com/photo-1625772292130-c5af89e24ca5?w=800&h=1000&fit=crop",
-          store: {
-            name: "Glow Beauty Studio",
-            logo: "https://images.unsplash.com/photo-1596462502278-ffb48ada4f7b?w=80&h=80&fit=crop",
-            rating: 4.9,
-          },
-        },
-        {
-          id: 5,
-          productName: "Summer Linen Dress",
-          price: 79,
-          image:
-            "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&h=1000&fit=crop",
-          store: {
-            name: "Luxe Fashion Boutique",
-            logo: "https://images.unsplash.com/photo-1607082349566-5079286ebb72?w=80&h=80&fit=crop",
-            rating: 4.8,
-          },
-        },
-        {
-          id: 6,
-          productName: "Smart Watch Pro",
-          price: 299,
-          image:
-            "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&h=1000&fit=crop",
-          store: {
-            name: "TechTrend Electronics",
-            logo: "https://images.unsplash.com/photo-1519389951296-1303fe2fd539?w=80&h=80&fit=crop",
-            rating: 4.9,
-          },
-        },
-      ]);
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    loadStore();
+    setLoading(false);
   }, [id]);
 
   const renderStars = (rating: number) => (
@@ -131,7 +48,7 @@ export default function StoreDetail() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="mt-4 text-gray-600 font-medium">Loading store...</p>
+          <p className="mt-4 text-gray-600 font-medium">Carregando...</p>
         </div>
       </div>
     );
@@ -160,14 +77,14 @@ export default function StoreDetail() {
                   <Package className="w-6 h-6 text-orange-600" />
                   <div>
                     <p className="font-semibold">
-                      {store.totalProducts} Products
+                      {store.products.length} Productos
                     </p>
-                    <p className="text-sm text-gray-500">Available now</p>
+                    <p className="text-sm text-gray-500">Disponível agora</p>
                   </div>
                 </div>
               </div>
               <div className="border-t pt-6">
-                <h4 className="font-semibold mb-3">About Store</h4>
+                <h4 className="font-semibold mb-3">Sobre a loja</h4>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {store.description}
                 </p>
@@ -179,12 +96,17 @@ export default function StoreDetail() {
         {/* Products Grid */}
         <div className="lg:pl-96">
           <h2 className="text-2xl sm:text-3xl font-bold mb-8">
-            All Products ({store.totalProducts})
+            Todos os Productos ({store.products.length})
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} inStore={false} />
+            {store.products.map((prod) => (
+              <ProductCard
+                key={prod.id}
+                product={prod}
+                store={store}
+                inStore={false}
+              />
             ))}
           </div>
         </div>

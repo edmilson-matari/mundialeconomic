@@ -3,25 +3,25 @@ import { Percent } from "lucide-react";
 export default function PromotionBanners() {
   const banners = [
     {
-      title: "Items on SALE",
-      subtitle: "Discounts up to 30%",
-      cta: "SHOP NOW",
+      title: "Productos e Serviços em Promoção",
+      subtitle: "Descontos até 30%",
+      cta: "Comprar agora",
       image:
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop&blur=8",
       overlay: "from-black/80 via-black/60 to-transparent",
     },
     {
-      title: "Combo Offers",
-      subtitle: "Discounts up to 50%",
-      cta: "SHOP NOW",
+      title: "Combo de Ofertas",
+      subtitle: "Descontos de até 50%",
+      cta: "Comprar agora",
       image:
         "https://images.unsplash.com/photo-1606787620651-8c9f2d2c0e0f?w=1200&h=800&fit=crop&blur=8",
       overlay: "from-blue-700/80 via-blue-600/60 to-transparent",
     },
     {
-      title: "Discount Coupons",
-      subtitle: "Discounts up to 40%",
-      cta: "SHOP NOW",
+      title: "Productos e Serviços de Qualidade",
+      subtitle: "Descontos em compra no site",
+      cta: "Comprar agora",
       image:
         "https://images.unsplash.com/photo-1571091718767-18b5b1457a80?w=1200&h=800&fit=crop&blur=8",
       overlay: "from-teal-700/80 via-teal-600/60 to-transparent",

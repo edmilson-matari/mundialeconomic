@@ -21,6 +21,7 @@ import {
 import { format } from "date-fns";
 import supabase from "../supabase-client";
 import type { StoreData } from "./Types/store";
+import EditStoreModal from "./EditStoreModal";
 
 export default function ProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +43,7 @@ export default function ProductsTable() {
 
       const { data, error } = await supabase
         .from("stores")
-        .select("*")
+        .select("*, products (*)")
         .order("id", { ascending: false });
       if (error) {
         console.log("Error fetching stores: ", error);
@@ -86,6 +87,17 @@ export default function ProductsTable() {
       setStores((prev) => prev.filter((store: StoreData) => store.id !== id));
     }
   };
+
+  if (loading || !stores) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="mt-4 text-gray-600 font-medium">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -265,7 +277,7 @@ export default function ProductsTable() {
                   <div>
                     <p className="text-sm text-gray-500">SKU</p>
                     <p className="font-medium">
-                      {quickViewProduct.totalProducts}
+                      {quickViewProduct.products.length}
                     </p>
                   </div>
                 </div>
@@ -296,7 +308,7 @@ export default function ProductsTable() {
                     >
                       {quickViewProduct.totalProducts === 0
                         ? "Esgotado"
-                        : quickViewProduct.totalProducts + " unidades"}
+                        : quickViewProduct.products.length + " unidades"}
                     </p>
                   </div>
                 </div>
@@ -308,102 +320,12 @@ export default function ProductsTable() {
 
       {/* Edit Modal */}
       {editingProduct && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold">Editar Loja</h2>
-              <button
-                onClick={() => setEditingProduct(null)}
-                className="p-2 hover:bg-gray-100 rounded-lg"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6 space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nome da Loja
-                </label>
-                <input
-                  type="text"
-                  value={editingProduct.productName}
-                  onChange={(e) =>
-                    setEditingProduct({
-                      ...editingProduct,
-                      productName: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Estoque
-                </label>
-                <input
-                  type="number"
-                  value={editingProduct.stock}
-                  onChange={(e) =>
-                    setEditingProduct({
-                      ...editingProduct,
-                      stock: Number(e.target.value),
-                    })
-                  }
-                  className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status
-                </label>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() =>
-                      setEditingProduct({ ...editingProduct, status: "active" })
-                    }
-                    className={`px-4 py-2 rounded-lg font-medium transition ${
-                      editingProduct.status === "active"
-                        ? "bg-green-600 text-white"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
-                  >
-                    Ativo
-                  </button>
-                  <button
-                    onClick={() =>
-                      setEditingProduct({
-                        ...editingProduct,
-                        status: "inactive",
-                      })
-                    }
-                    className={`px-4 py-2 rounded-lg font-medium transition ${
-                      editingProduct.status === "inactive"
-                        ? "bg-red-600 text-white"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
-                  >
-                    Inativo
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
-              <button
-                onClick={() => setEditingProduct(null)}
-                className="px-5 py-3 border rounded-xl hover:bg-gray-100"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleSaveEdit}
-                className="px-5 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 flex items-center gap-2"
-              >
-                <Save className="w-4 h-4" />
-                Salvar Alterações
-              </button>
-            </div>
-          </div>
-        </div>
+        <EditStoreModal
+          editingProduct={editingProduct}
+          setEditingProduct={setEditingProduct}
+          handleSaveEdit={handleSaveEdit}
+          storeId={editingProduct.id}
+        />
       )}
 
       {/* Delete Confirmation */}
