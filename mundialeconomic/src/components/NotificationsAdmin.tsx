@@ -10,7 +10,6 @@ import {
   Store,
   AlertCircle,
   MessageCircle,
-  CheckCircle,
   Bell,
   Clock,
 } from "lucide-react";
