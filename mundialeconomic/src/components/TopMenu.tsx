@@ -1,367 +1,249 @@
-("use client");
+"use client";
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Menu,
-  ShoppingCart,
-  ChevronDown,
-  Search,
-  Phone,
   X,
+  Search,
+  ShoppingCart,
+  Phone,
+  ChevronDown,
   User,
   Heart,
   LogIn,
 } from "lucide-react";
 import { categories } from "./Types/categories";
 
-function TopUserBar() {
-  /*const [languageOpen, setLanguageOpen] = useState(false);
-  const [currencyOpen, setCurrencyOpen] = useState(false);*/
+export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
 
-  return (
-    <div className="bg-gray-900 text-gray-300 text-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-10">
-          {/* Left Side: Language, Currency, Welcome */}
-          <div className="flex items-center space-x-6">
-            {/* Language Dropdown 
-            <div className="relative">
-              <button
-                onClick={() => setLanguageOpen(!languageOpen)}
-                className="flex items-center space-x-1 hover:text-white transition"
-              >
-                <Globe className="h-4 w-4" />
-                <span>English</span>
-                <ChevronDown
-                  className={`h-3 w-3 transition-transform ${
-                    languageOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {languageOpen && (
-                <div className="absolute top-full left-0 mt-1 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    English
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    Español
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    Français
-                  </a>
-                </div>
-              )}
-            </div>*/}
-
-            <span className="hidden sm:inline">|</span>
-
-            {/* Currency Dropdown 
-            <div className="relative">
-              <button
-                onClick={() => setCurrencyOpen(!currencyOpen)}
-                className="flex items-center space-x-1 hover:text-white transition"
-              >
-                <span>USD</span>
-                <ChevronDown
-                  className={`h-3 w-3 transition-transform ${
-                    currencyOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {currencyOpen && (
-                <div className="absolute top-full left-0 mt-1 w-24 bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    USD
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    EUR
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-800 hover:bg-orange-50"
-                  >
-                    GBP
-                  </a>
-                </div>
-              )}
-            </div>
-
-            <span className="hidden sm:inline">|</span>*/}
-
-            {/* Welcome Message */}
-            <span className="hidden md:inline">
-              Bem-vindo à Mundial Económico
-            </span>
-          </div>
-
-          {/* Right Side: User Actions */}
-          <div className="flex items-center space-x-6 space-x-5">
-            <a
-              href="#"
-              className="flex items-center space-x-2 hover:text-white transition"
-            >
-              <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Minha Conta</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-2 hover:text-white transition"
-            >
-              <Heart className="h-4 w-4" />
-              <span className="hidden sm:inline">Minha Lista de Desejos</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-2 hover:text-white transition"
-            >
-              <ShoppingCart className="h-4 w-4" />
-              <span className="hidden sm:inline">Check Out</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-2 hover:text-white transition"
-            >
-              <LogIn className="h-4 w-4" />
-              <span className="hidden sm:inline">Log In</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-{
-  /*TopBar User End*/
-}
-
-function EcommerceHeader() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navLinks = [
+    { name: "Início", to: "/" },
+    { name: "Lojas", to: "/lojas" },
+    { name: "Contacto", to: "/contacto" },
+  ];
 
   return (
     <>
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      {/* Top Bar */}
+      <div className="bg-gray-900 text-gray-300 text-sm border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center h-11">
+            {/* Mensagem de boas-vindas (esconde em mobile) */}
+            <span className="hidden md:block text-gray-400">
+              Bem-vindo à{" "}
+              <span className="text-orange-400 font-medium">
+                Mundial Económico
+              </span>
+            </span>
+
+            {/* Links com ícones (visíveis em todas as telas) */}
+            <div className="flex items-center gap-5 md:gap-7">
+              {/* Minha Conta */}
+              <Link
+                to="/conta"
+                className="flex items-center gap-2 hover:text-white transition group"
+              >
+                <User className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
+                <span className="hidden sm:inline">Minha Conta</span>
+              </Link>
+
+              {/* Lista de Desejos */}
+              <Link
+                to="/wishlist"
+                className="flex items-center gap-2 hover:text-white transition group"
+              >
+                <Heart className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
+                <span className="hidden sm:inline">Desejos</span>
+              </Link>
+
+              {/* Carrinho */}
+              <Link
+                to="/carrinho"
+                className="flex items-center gap-2 hover:text-white transition group relative"
+              >
+                <ShoppingCart className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
+                <span className="hidden sm:inline">Carrinho</span>
+                {/* Badge do carrinho */}
+                <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  3
+                </span>
+              </Link>
+
+              {/* Entrar / Perfil */}
+              <Link
+                to="/login"
+                className="flex items-center gap-2 hover:text-white transition px-4 py-2 rounded-lg font-medium"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Entrar</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div className="flex items-center">
-              <ShoppingCart className="h-8 w-8 text-orange-600" />
-              <div className="ml-3">
-                <h1 className="text-xl font-bold text-gray-900">
+            <Link to="/" className="flex items-center gap-3">
+              <ShoppingCart className="h-10 w-10 text-orange-600" />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
                   Mundial Económico
                 </h1>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 -mt-1">
                   Comprar feito de maneira fácil
                 </p>
               </div>
-            </div>
+            </Link>
 
-            {/* Desktop Search */}
-            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+            {/* Desktop Search Bar */}
+            <div className="hidden lg:flex flex-1 max-w-2xl mx-10">
               <div className="relative w-full">
-                <select className="absolute left-0 top-0 h-full px-4 bg-gray-100 text-gray-700 text-sm rounded-l-lg border border-r-0 border-gray-300 focus:outline-none z-10">
-                  <option defaultChecked value={"todas"}>
-                    Todas Categorias
-                  </option>
-                  {categories.map((cat) => (
-                    <option value={cat.value}>{cat.name}</option>
+                <select className="absolute left-0 top-0 h-full px-5 bg-gray-100 text-gray-700 rounded-l-lg border-r border-gray-300 text-sm z-10">
+                  <option>Todas</option>
+                  {categories.map((c) => (
+                    <option key={c.value}>{c.name}</option>
                   ))}
                 </select>
                 <input
                   type="text"
-                  placeholder="Procure a loja toda aqui..."
-                  className="w-full pl-48 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="Pesquise produtos, lojas ou categorias..."
+                  className="w-full pl-44 pr-14 py-3.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
-                <button className="absolute right-0 top-0 h-full px-6 bg-orange-600 hover:bg-orange-700 rounded-r-lg transition-colors">
+                <button className="absolute right-0 top-0 h-full w-14 bg-orange-600 hover:bg-orange-700 rounded-r-lg flex items-center justify-center">
                   <Search className="h-5 w-5 text-white" />
                 </button>
               </div>
             </div>
 
+            {/* Desktop Navigation + Cart */}
+            <div className="hidden lg:flex items-center gap-8">
+              {/* Navigation */}
+              <nav className="flex items-center gap-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.to}
+                    className="text-gray-700 font-semibold text-base hover:text-orange-600 transition"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Cart */}
+              <Link
+                to="/carrinho"
+                className="flex items-center gap-3 bg-gray-800 text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition"
+              >
+                <ShoppingCart className="h-6 w-6" />
+                <div className="text-left">
+                  <div className="text-xs opacity-90">Meu Carrinho</div>
+                  <div className="font-bold">0 itens</div>
+                </div>
+                <span className="bg-orange-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                  0
+                </span>
+              </Link>
+            </div>
+
             {/* Mobile Buttons */}
-            <div className="flex items-center space-x-3 sm:hidden">
+            <div className="flex items-center gap-3 lg:hidden">
               <a
-                href="tel:+1123456789"
-                className="p-3 bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors"
+                href="tel:+244923456789"
+                className="p-3 bg-orange-600 rounded-lg"
               >
-                <Phone className="h-6 w-6 text-white" />
+                <Phone className="h-5 w-5 text-white" />
               </a>
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6 text-gray-700" />
+              <button onClick={() => setMobileOpen(!mobileOpen)}>
+                {mobileOpen ? (
+                  <X className="h-7 w-7" />
                 ) : (
-                  <Menu className="h-6 w-6 text-gray-700" />
+                  <Menu className="h-7 w-7" />
                 )}
               </button>
             </div>
           </div>
+        </div>
 
-          {/* Mobile Menu & Search - Slides Down */}
-          <div
-            className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-              isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="pb-4 px-2">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search entire store..."
-                  className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-                <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2">
-                  <Search className="h-5 w-5 text-gray-600" />
-                </button>
-              </div>
+        {/* Mobile Menu */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 border-t ${
+            mobileOpen ? "max-h-screen py-6" : "max-h-0 py-0"
+          }`}
+        >
+          <div className="px-4 space-y-5">
+            {/* Mobile Search */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Pesquisar..."
+                className="w-full pl-4 pr-12 py-3.5 border rounded-lg focus:ring-2 focus:ring-orange-500"
+              />
+              <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
+            </div>
 
-              {/* Optional: Mobile category links */}
-              <div className="mt-4 space-y-2">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                >
-                  Todas Categorias
-                </a>
-                {categories.map((cat) => (
+            {/* Mobile Categories */}
+            <button
+              onClick={() => setCatOpen(!catOpen)}
+              className="w-full flex justify-between items-center bg-orange-600 text-white px-5 py-3.5 rounded-lg font-medium"
+            >
+              Categorias
+              <ChevronDown
+                className={`h-5 w-5 transition ${catOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {catOpen && (
+              <div className="bg-gray-50 rounded-lg border">
+                {categories.map((c) => (
                   <a
+                    key={c.value}
                     href="#"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                    className="block px-5 py-3 hover:bg-orange-50 border-b last:border-0"
                   >
-                    {cat.name}
+                    {c.name}
                   </a>
                 ))}
               </div>
-            </div>
+            )}
+
+            {/* Mobile Nav Links */}
+            <nav className="space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.to}
+                  className="block px-5 py-3.5 text-lg font-medium text-gray-800 hover:bg-orange-50 rounded-lg"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Mobile Cart */}
+            <Link
+              to="/carrinho"
+              className="flex justify-between items-center bg-gray-800 text-white px-6 py-4 rounded-xl"
+              onClick={() => setMobileOpen(false)}
+            >
+              <div className="flex items-center gap-4">
+                <ShoppingCart className="h-7 w-7" />
+                <span className="font-bold">Meu Carrinho</span>
+              </div>
+              <span className="bg-orange-500 rounded-full w-10 h-10 flex items-center justify-center font-bold">
+                0
+              </span>
+            </Link>
           </div>
         </div>
       </header>
-    </>
-  );
-}
-{
-  /*E-commerce header end*/
-}
-
-function MenuNav() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const navItems = ["Início", "Lojas", "Contacte-nos"];
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  return (
-    <>
-      <nav className="bg-white shadow-md">
-        <div className="flex items-center justify-between px-4 py-4 md:px-8">
-          {/* Left Section: Categories Dropdown */}
-          <div className="relative">
-            <button
-              onClick={toggleDropdown}
-              className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 font-semibold hover:bg-orange-600 transition-colors"
-            >
-              <Menu size={20} />
-              CATEGORIAS
-              <ChevronDown
-                size={18}
-                className={`transition-transform ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg rounded-md w-48 z-50">
-                {categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className="w-full text-left px-4 py-3 hover:bg-orange-50 text-gray-700 font-medium transition-colors border-b last:border-b-0"
-                  >
-                    {category.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Center Section: Navigation Links */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link
-              to={"/"}
-              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
-            >
-              {navItems[0]}
-            </Link>
-            <Link
-              to={"/lojas"}
-              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
-            >
-              {navItems[1]}
-            </Link>
-            <Link
-              to={"/contacto"}
-              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
-            >
-              Contacto
-            </Link>
-          </div>
-
-          {/* Right Section: Shopping Cart */}
-          <div className="flex items-center gap-3 bg-gray-700 text-white px-4 py-2 rounded-md">
-            <ShoppingCart size={20} />
-            <span className="font-semibold">Meu Carrinho</span>
-            <div className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm">
-              {0}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden px-4 pb-4 flex flex-col gap-2">
-          {navItems.map((item, index) => (
-            <a
-              key={index}
-              href="#"
-              className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      </nav>
-    </>
-  );
-}
-
-export default function Navbar() {
-  return (
-    <>
-      <TopUserBar />
-      <EcommerceHeader />
-      <div className="sticky top-0 z-50">
-        <MenuNav />
-      </div>
     </>
   );
 }
