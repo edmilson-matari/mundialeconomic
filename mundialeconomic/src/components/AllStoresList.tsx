@@ -20,7 +20,7 @@ export default function AllStoresList() {
 
       const { data, error } = await supabase
         .from("stores")
-        .select("*")
+        .select("*, products (*)")
         .order("id", { ascending: false });
       if (error) {
         console.log("Error fetching stores: ", error);
@@ -191,7 +191,7 @@ export default function AllStoresList() {
                   </div>
 
                   <p className="text-sm text-gray-500 mt-2">
-                    {store.totalProducts} Productos
+                    {store.products.length} Producto(s)
                   </p>
                   <Link to={`/lojas/${store.id}`}>
                     <button className="mt-6 w-full bg-orange-600 hover:cursor-pointer hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">

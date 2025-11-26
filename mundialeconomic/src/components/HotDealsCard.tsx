@@ -1,31 +1,19 @@
 // components/HotDealCard.tsx
-import { Star } from "lucide-react";
-
-interface Store {
-  name: string;
-  logo: string;
-  rating: number;
-}
+import { Star, Store, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
+import type { ProductDetail } from "./Types/product";
 
 interface HotDealCardProps {
-  productName: string;
-  price: number;
-  image: string;
-  store: Store;
+  product: ProductDetail;
 }
 
-export default function HotDealCard({
-  productName,
-  price,
-  image,
-  store,
-}: HotDealCardProps) {
+export default function HotDealCard({ product }: HotDealCardProps) {
   const renderStars = (rating: number) => (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
         <Star
           key={i}
-          className={`w-3.5 h-3.5 ${
+          className={`w-4 h-4 ${
             i <= rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
           }`}
         />
@@ -35,52 +23,80 @@ export default function HotDealCard({
 
   return (
     <div className="flex-none w-full sm:w-80 md:w-72 lg:w-80">
-      <div className="bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 group">
-        {/* Product Image */}
-        <div className="relative bg-gray-50 rounded-t-xl p-10 flex items-center justify-center overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+        {/* Imagem com altura fixa */}
+        <div className="relative bg-gray-50 h-64 flex items-center justify-center overflow-hidden">
           <img
-            src={image}
-            alt={productName}
-            className="max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+            src={product.image || "/placeholder-product.jpg"}
+            alt={product.productName}
+            className="max-h-56 max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
-          {/* Store Logo Overlay */}
-          <div className="absolute top-4 left-4">
+
+          {/* Logo da loja no canto */}
+          <div className="absolute top-3 left-3">
             <img
-              src={store.logo}
-              alt={store.name}
-              className="w-12 h-12 rounded-full border-4 border-white shadow-lg object-cover"
+              src={product.stores.logo || "/default-store.png"}
+              alt={product.stores.name}
+              className="w-14 h-14 rounded-full border-4 border-white shadow-xl object-cover ring-2 ring-white/50"
             />
           </div>
+
+          {/* Badge Hot Deal */}
+          {product.badge && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+              {product.badge?.type === "new"
+                ? "NEW"
+                : product.badge?.type === "hot"
+                ? "HOT"
+                : "DISCOUNT"}
+            </div>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="p-5">
-          <p className="text-xs font-medium text-orange-600 truncate">
-            {store.name}
+        {/* Conteúdo com altura flexível mas controlada */}
+        <div className="p-5 flex flex-col flex-grow">
+          {/* Nome da loja */}
+          <p className="text-sm font-semibold text-orange-600 truncate">
+            {product.stores.name}
           </p>
-          <h3 className="font-semibold text-gray-800 mt-1 line-clamp-2">
-            {productName}
+
+          {/* Nome do produto - sempre 2 linhas */}
+          <h3 className="font-bold text-gray-800 mt-1 line-clamp-2 leading-tight min-h-12">
+            {product.productName}
           </h3>
 
+          {/* Avaliação */}
           <div className="flex items-center gap-2 mt-2">
-            {renderStars(store.rating)}
-            <span className="text-xs text-gray-500">({store.rating})</span>
-          </div>
-
-          <div className="flex items-center justify-between mt-4">
-            <span className="text-2xl font-bold texted-orange-600">
-              ${price}
+            {renderStars(product.stores.rating || 4)}
+            <span className="text-xs text-gray-500">
+              ({product.stores.rating || "4.8"})
             </span>
-            <span className="text-sm text-gray-500">Hot Deal</span>
           </div>
 
-          <div className="mt-4 flex gap-2">
-            <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2.5 rounded-lg text-sm transition">
-              Adicionar ao Carrinho
+          {/* Preço */}
+          <div className="mt-4 flex items-end justify-between">
+            <div>
+              <span className="text-3xl font-bold text-orange-600">
+                Kz {product.price.toLocaleString()}
+              </span>
+            </div>
+          </div>
+
+          {/* Botões - sempre na mesma posição */}
+          <div className="mt-6 flex gap-3">
+            {/* Adicionar ao Carrinho */}
+            <button className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+              <ShoppingCart className="w-5 h-5" />
+              <span>Adicionar</span>
             </button>
-            <button className="px-4 border border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 rounded-lg text-sm transition">
-              Visitar Loja
-            </button>
+
+            {/* Visitar Loja */}
+            <Link to={`/lojas/${product.stores.id}`} className="flex-1">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-orange-600 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 shadow-sm hover:shadow-md">
+                <Store className="w-5 h-5" />
+                <span>Visitar Loja</span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import HeroBanner from "../HeroBanner";
 import type { StoreData } from "../Types/store";
 import { Star, Package } from "lucide-react";
 import supabase from "../../supabase-client";
+import WhatsAppButton from "../Whatsapp";
 
 export default function StoreDetail() {
   const { id } = useParams<{ id: string }>();
@@ -87,6 +88,11 @@ export default function StoreDetail() {
                   {store.description}
                 </p>
               </div>
+              <WhatsAppButton
+                phone={store.phone} // número da loja (Angola)
+                storeName={store.name}
+                productName={" "}
+              />
             </div>
           </div>
         </div>

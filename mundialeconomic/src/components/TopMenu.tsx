@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
@@ -12,18 +12,55 @@ import {
   User,
   Heart,
   LogIn,
+  LogOut,
+  UserPlus2,
 } from "lucide-react";
 import { categories } from "./Types/categories";
+import supabase from "../supabase-client";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Início", to: "/" },
     { name: "Lojas", to: "/lojas" },
     { name: "Contacto", to: "/contacto" },
   ];
+
+  // Verifica sessão ao carregar
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    checkUser();
+
+    // Escuta mudanças de autenticação em tempo real
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  // Logout
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    navigate("/login-usuario");
+  };
 
   return (
     <>
@@ -41,45 +78,62 @@ export default function Navbar() {
 
             {/* Links com ícones (visíveis em todas as telas) */}
             <div className="flex items-center gap-5 md:gap-7">
-              {/* Minha Conta */}
-              <Link
-                to="/conta"
-                className="flex items-center gap-2 hover:text-white transition group"
-              >
-                <User className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
-                <span className="hidden sm:inline">Minha Conta</span>
-              </Link>
+              {!loading && user ? (
+                // USUÁRIO LOGADO → Apenas "Sair"
+                <>
+                  <Link
+                    to="/conta"
+                    className="flex items-center gap-2 hover:text-white transition group"
+                  >
+                    <User className="h-4 w-4 text-gray-400 group-hover:text-white" />
+                    <span className="hidden sm:inline">Minha Conta</span>
+                  </Link>
 
-              {/* Lista de Desejos */}
-              <Link
-                to="/wishlist"
-                className="flex items-center gap-2 hover:text-white transition group"
-              >
-                <Heart className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
-                <span className="hidden sm:inline">Desejos</span>
-              </Link>
+                  <Link
+                    to="/wishlist"
+                    className="flex items-center gap-2 hover:text-white transition group"
+                  >
+                    <Heart className="h-4 w-4 text-gray-400 group-hover:text-white" />
+                    <span className="hidden sm:inline">Desejos</span>
+                  </Link>
 
-              {/* Carrinho */}
-              <Link
-                to="/carrinho"
-                className="flex items-center gap-2 hover:text-white transition group relative"
-              >
-                <ShoppingCart className="h-4 w-4 text-gray-400 group-hover:text-white transition" />
-                <span className="hidden sm:inline">Carrinho</span>
-                {/* Badge do carrinho */}
-                <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
-              </Link>
-
-              {/* Entrar / Perfil */}
-              <Link
-                to="/login"
-                className="flex items-center gap-2 hover:text-white transition px-4 py-2 rounded-lg font-medium"
-              >
-                <LogIn className="h-4 w-4" />
-                <span>Entrar</span>
-              </Link>
+                  <Link
+                    to="/carrinho"
+                    className="flex items-center gap-2 hover:text-white transition group relative"
+                  >
+                    <ShoppingCart className="h-4 w-4 text-gray-400 group-hover:text-white" />
+                    <span className="hidden sm:inline">Carrinho</span>
+                    <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      3
+                    </span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 text-white hover:text-orange-400 transition font-medium"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span className="hidden sm:inline">Sair</span>
+                  </button>
+                </>
+              ) : (
+                // USUÁRIO NÃO LOGADO → Links normais
+                <>
+                  <Link
+                    to="/login-usuario"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition"
+                  >
+                    <LogIn className="h-4 w-4 rotate-180" />
+                    <span>Entrar</span>
+                  </Link>
+                  <Link
+                    to="/registar"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition"
+                  >
+                    <UserPlus2 className="h-4 w-4" />
+                    <span>Criar Conta</span>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

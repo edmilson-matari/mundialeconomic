@@ -55,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               ) : (
                 <div className="bg-black text-white w-11 h-11 rounded-full flex items-center justify-center text-xs font-bold">
                   <Percent className="w-4 h-4" />
-                  {product.badge.percent}
+                  {product.badge?.type === "discount" ? "discount" : "hot"}
                 </div>
               )}
             </div>

@@ -8,6 +8,8 @@ import { AuthProvider, useAuth } from "./components/AuthContext";
 import { Loader2 } from "lucide-react";
 import ManagementPage from "./components/Pages/ManagementPage";
 import ContactPage from "./components/Pages/ContactPage";
+import UserLogin from "./components/Pages/UserLogin";
+import CreateAccount from "./components/Pages/CreateAccount";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
@@ -31,6 +33,14 @@ const App = () => {
     return isAdmin ? <AdminLayout /> : null;
   }
   const router = createBrowserRouter([
+    {
+      path: "/login-usuario",
+      element: <UserLogin />,
+    },
+    {
+      path: "/registar",
+      element: <CreateAccount />,
+    },
     {
       path: "/login",
       element: <Login />,
