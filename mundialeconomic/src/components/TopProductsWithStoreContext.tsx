@@ -43,7 +43,7 @@ export default function TopProductsWithStoreContext() {
     },
     {
       id: 2,
-      title: "Wireless Noise-Cancelling Headphones",
+      title: "Wireless Noi",
       price: 349.0,
       badge: { type: "discount", percent: 20 },
       image:
@@ -74,7 +74,7 @@ export default function TopProductsWithStoreContext() {
       title: "Vitamin C Serum 30ml",
       price: 68.0,
       image:
-        "https://images.unsplash.com/photo-1625772292130-c5af89e24ca5?w=600&h=800&fit=crop",
+        "https://images-cdn.ubuy.co.in/68fb75366786fcc0770d7bff-professional-vitamin-c-face-serum-20.jpg",
       store: {
         id: 4,
         name: "Glow Beauty Studio",
@@ -116,7 +116,7 @@ export default function TopProductsWithStoreContext() {
       oldPrice: 199.0,
       badge: { type: "new", text: "NEW" },
       image:
-        "https://images.unsplash.com/photo-1608234996168-0c13e1f6b3b3?w=600&h=800&fit=crop",
+        "https://www.bfgcdn.com/1500_1500_90/023-2249/la-sportiva-prodigio-pro-trail-running-shoes-detail-2.jpg",
       store: {
         id: 3,
         name: "Urban Sneakers Co.",
@@ -129,7 +129,7 @@ export default function TopProductsWithStoreContext() {
       title: "Hydrating Face Cream",
       price: 48.0,
       image:
-        "https://images.unsplash.com/photo-1591376931407-31e9b7a856ca?w=600&h=800&fit=crop",
+        "https://www.byrdie.com/thmb/KSJxrRUPqtje9yJmfx7-5jQsF94=/fit-in/1500x1000/filters:no_upscale():max_bytes(150000):strip_icc()/neutrogena-hydro-boost-hyaluronic-acid-hydrating-gel-cream-093f89976f1042008a3e62e63b095cba.jpg",
       store: {
         id: 4,
         name: "Glow Beauty Studio",
@@ -159,7 +159,7 @@ export default function TopProductsWithStoreContext() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
           <div>
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-              TOP PRODUCTS
+              TOP PRODUCTOS
             </h2>
             <div className="w-24 h-1 bg-orange-500 mt-2"></div>
           </div>
@@ -176,10 +176,10 @@ export default function TopProductsWithStoreContext() {
                 }`}
               >
                 {tab === "new"
-                  ? "New Products"
+                  ? "Novos Productos"
                   : tab === "popular"
-                  ? "Popular Products"
-                  : "Best Seller"}
+                  ? "Productos Populares"
+                  : "Mais Vendidos"}
               </button>
             ))}
           </div>
@@ -229,7 +229,7 @@ export default function TopProductsWithStoreContext() {
               {/* Content */}
               <div className="p-5">
                 <p className="text-xs text-orange-600 font-medium truncate">
-                  from {product.store.name}
+                  de {product.store.name}
                 </p>
                 <h3 className="text-gray-800 font-medium mt-1 line-clamp-2">
                   {product.title}
@@ -257,10 +257,10 @@ export default function TopProductsWithStoreContext() {
 
                 <div className="flex gap-2 mt-4">
                   <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2.5 rounded-lg transition">
-                    Add to Cart
+                    Adic. ao Carrinho
                   </button>
                   <button className="px-4 border border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 rounded-lg transition">
-                    Visit Store
+                    Visitar Loja
                   </button>
                 </div>
               </div>

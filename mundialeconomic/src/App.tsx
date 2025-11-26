@@ -1,30 +1,17 @@
-import {
-  RouterProvider,
-  createBrowserRouter,
-  redirect,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-import type { LoaderFunctionArgs } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import AdminLayout from "./components/Layout/AdminLayout";
 import AdminDash from "./components/Pages/AdminDash";
 import Login from "./components/Pages/Login";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import { Loader2 } from "lucide-react";
+import ManagementPage from "./components/Pages/ManagementPage";
+import ContactPage from "./components/Pages/ContactPage";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
   const ShopsDetails = lazy(() => import("./components/Pages/ShopsDetail"));
-
-  const requireAuth = async ({ request }: LoaderFunctionArgs) => {
-    const logged = localStorage.getItem("admin-auth") === "true";
-    if (!logged) {
-      const params = new URLSearchParams();
-      params.set("from", new URL(request.url).pathname);
-      return redirect(`/login?${params.toString()}`);
-    }
-    return null;
-  };
 
   // Layout protegido
   function ProtectedLayout() {
@@ -51,7 +38,10 @@ const App = () => {
     {
       path: "/admin",
       element: <ProtectedLayout />,
-      children: [{ path: "/admin/stores", element: <AdminDash /> }],
+      children: [
+        { path: "/admin/stores", element: <AdminDash /> },
+        { path: "/admin/users", element: <ManagementPage /> },
+      ],
     },
     {
       element: <Layout />,
@@ -67,6 +57,10 @@ const App = () => {
         {
           path: "/lojas",
           element: <Shops />,
+        },
+        {
+          path: "/contacto",
+          element: <ContactPage />,
         },
         {
           path: "/shops-details",

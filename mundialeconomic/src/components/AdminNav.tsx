@@ -1,13 +1,16 @@
 "use client";
 
-import { Menu, Search, Bell, ChevronDown } from "lucide-react";
+import { Menu, Search, ChevronDown } from "lucide-react";
 import NotificationsPanel from "./NotificationsAdmin";
+import avatar from "../default_img/avatar.jpg";
 
 interface NavbarProps {
   onMenuClick: () => void;
+  name: string;
+  img?: string;
 }
 
-export default function AdminNavbar({ onMenuClick }: NavbarProps) {
+export default function AdminNavbar({ onMenuClick, name, img }: NavbarProps) {
   return (
     <header className="sticky top-0 z-30 bg-white border-b border-gray-200">
       <div className="flex items-center justify-between h-16 px-4 lg:px-8">
@@ -44,12 +47,11 @@ export default function AdminNavbar({ onMenuClick }: NavbarProps) {
 
           <div className="flex items-center gap-3 pl-3 border-l border-gray-200">
             <div className="hidden sm:block text-right">
-              <p className="text-sm font-medium">Jitu Chauhan</p>
-              <p className="text-xs text-gray-500">Free Plan</p>
+              <p className="text-sm font-medium">{name}</p>
             </div>
             <button className="flex items-center gap-1">
               <img
-                src="https://randomuser.me/api/portraits/men/32.jpg"
+                src={img || avatar}
                 alt="User"
                 className="w-9 h-9 rounded-full ring-2 ring-green-500"
               />

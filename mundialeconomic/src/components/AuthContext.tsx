@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import supabase from "../supabase-client";
-import bcrypt from "bcryptjs";
+//import bcrypt from "bcryptjs";
 
 interface AuthContextType {
   isAdmin: boolean;

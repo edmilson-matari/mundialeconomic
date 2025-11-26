@@ -11,12 +11,12 @@ import {
   User,
   Heart,
   LogIn,
-  Globe,
 } from "lucide-react";
+import { categories } from "./Types/categories";
 
 function TopUserBar() {
-  const [languageOpen, setLanguageOpen] = useState(false);
-  const [currencyOpen, setCurrencyOpen] = useState(false);
+  /*const [languageOpen, setLanguageOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);*/
 
   return (
     <div className="bg-gray-900 text-gray-300 text-sm">
@@ -24,7 +24,7 @@ function TopUserBar() {
         <div className="flex items-center justify-between h-10">
           {/* Left Side: Language, Currency, Welcome */}
           <div className="flex items-center space-x-6">
-            {/* Language Dropdown */}
+            {/* Language Dropdown 
             <div className="relative">
               <button
                 onClick={() => setLanguageOpen(!languageOpen)}
@@ -60,11 +60,11 @@ function TopUserBar() {
                   </a>
                 </div>
               )}
-            </div>
+            </div>*/}
 
             <span className="hidden sm:inline">|</span>
 
-            {/* Currency Dropdown */}
+            {/* Currency Dropdown 
             <div className="relative">
               <button
                 onClick={() => setCurrencyOpen(!currencyOpen)}
@@ -101,7 +101,7 @@ function TopUserBar() {
               )}
             </div>
 
-            <span className="hidden sm:inline">|</span>
+            <span className="hidden sm:inline">|</span>*/}
 
             {/* Welcome Message */}
             <span className="hidden md:inline">
@@ -177,14 +177,16 @@ function EcommerceHeader() {
             <div className="hidden md:flex flex-1 max-w-2xl mx-8">
               <div className="relative w-full">
                 <select className="absolute left-0 top-0 h-full px-4 bg-gray-100 text-gray-700 text-sm rounded-l-lg border border-r-0 border-gray-300 focus:outline-none z-10">
-                  <option>ALL CATEGORIES</option>
-                  <option>Electronics</option>
-                  <option>Fashion</option>
-                  <option>Home & Garden</option>
+                  <option defaultChecked value={"todas"}>
+                    Todas Categorias
+                  </option>
+                  {categories.map((cat) => (
+                    <option value={cat.value}>{cat.name}</option>
+                  ))}
                 </select>
                 <input
                   type="text"
-                  placeholder="Search entire store here..."
+                  placeholder="Procure a loja toda aqui..."
                   className="w-full pl-48 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
                 <button className="absolute right-0 top-0 h-full px-6 bg-orange-600 hover:bg-orange-700 rounded-r-lg transition-colors">
@@ -240,18 +242,14 @@ function EcommerceHeader() {
                 >
                   Todas Categorias
                 </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                >
-                  Electronics
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                >
-                  Fashion
-                </a>
+                {categories.map((cat) => (
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    {cat.name}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -266,9 +264,6 @@ function EcommerceHeader() {
 
 function MenuNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(2);
-
-  const categories = ["Electronics", "Clothing", "Books", "Home & Garden"];
   const navItems = ["Início", "Lojas", "Contacte-nos"];
 
   const toggleDropdown = () => {
@@ -303,7 +298,7 @@ function MenuNav() {
                     key={index}
                     className="w-full text-left px-4 py-3 hover:bg-orange-50 text-gray-700 font-medium transition-colors border-b last:border-b-0"
                   >
-                    {category}
+                    {category.name}
                   </button>
                 ))}
               </div>
@@ -325,10 +320,10 @@ function MenuNav() {
               {navItems[1]}
             </Link>
             <Link
-              to={"/shops-details"}
+              to={"/contacto"}
               className="text-gray-700 font-medium hover:text-orange-500 transition-colors text-sm"
             >
-              {navItems[2]}
+              Contacto
             </Link>
           </div>
 
@@ -337,7 +332,7 @@ function MenuNav() {
             <ShoppingCart size={20} />
             <span className="font-semibold">Meu Carrinho</span>
             <div className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm">
-              {cartCount}
+              {0}
             </div>
           </div>
         </div>

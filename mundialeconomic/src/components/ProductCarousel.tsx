@@ -3,6 +3,7 @@
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function ProductCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -15,33 +16,30 @@ export default function ProductCarousel() {
 
   const slides = [
     {
-      title: "FASHION FOR MEN",
-      highlight: "MEN",
-      description:
-        "Timeless style and premium quality. Discover the collection that elevates your everyday look with sophistication and comfort.",
-      btnText: "SHOP NOW",
+      title: "Enlatados de Qualidade",
+      highlight: "ALIMENTOS",
+      description: "Encontre os melhores enlatados para a sua refeição.",
+      btnText: "Explorar Lojas",
       image:
-        "https://images.unsplash.com/photo-1505022610485-0249ba5b3675?w=1200&h=800&fit=crop",
-      colors: ["#3B2A1E", "#8B6F47", "#000000"],
+        "https://img.freepik.com/vetores-gratis/conjunto-de-diferentes-alimentos-enlatados-e-alimentos-em-potes-isolados_1308-47815.jpg?semt=ais_hybrid&w=740&q=80",
+      colors: ["#fc0808ff", "#e41212ff", "#ff0000ff"],
     },
     {
-      title: "PREMIUM LEATHER",
-      highlight: "CRAFTED",
+      title: "Electônicos de Qualidade",
+      highlight: "ELECTRÔNICOS",
       description:
-        "Handcrafted bags and shoes made from the finest Italian leather. Built to last, designed to impress.",
-      btnText: "EXPLORE COLLECTION",
-      image:
-        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&h=800&fit=crop",
+        "Se está a procura de um dispositivo novo, aqui você encontra.",
+      btnText: "Explorar Lojas",
+      image: "https://eshowmagazine.com/wp-content/uploads/electronica.jpeg",
       colors: ["#2C1810", "#D4A574", "#8B4513"],
     },
     {
-      title: "MODERN",
-      highlight: "ELEGANCE",
-      description:
-        "Clean lines, perfect fit. The modern gentleman’s wardrobe essentials — from tailored coats to premium accessories.",
-      btnText: "VIEW MORE",
+      title: "Compre bebidas de qualidade",
+      highlight: "BEBIDAS",
+      description: "O melhor das bebidas para si e aqueles de quem gosta.",
+      btnText: "Explorar Lojas",
       image:
-        "https://images.unsplash.com/photo-1617114919298-1b12d3a1345f?w=1200&h=800&fit=crop",
+        "https://angola24horas.com/media/k2/items/cache/1d5e8a5e85f2a02961d91f2ddb7fc83c_XL.jpg",
       colors: ["#1a1a1a", "#434343", "#666666"],
     },
   ];
@@ -58,16 +56,18 @@ export default function ProductCarousel() {
                   <div className="text-center lg:text-left space-y-6 order-2 lg:order-1">
                     <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
                       {slide.title} <br />
-                      <span className="text-orange-700">{slide.highlight}</span>
+                      <span className="text-orange-400">{slide.highlight}</span>
                     </h1>
 
                     <p className="text-gray-600 text-lg max-w-lg mx-auto lg:mx-0">
                       {slide.description}
                     </p>
 
-                    <button className="inline-flex items-center px-8 py-4 border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300">
-                      {slide.btnText}
-                    </button>
+                    <Link to={"/lojas"}>
+                      <button className="inline-flex items-center px-8 py-4 border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300">
+                        {slide.btnText}
+                      </button>
+                    </Link>
 
                     {/* Color Dots */}
                   </div>

@@ -15,6 +15,8 @@ export default function AdminLayout() {
     navigate("/login");
   };
 
+  if (!isAdmin) return <h1>Get out of here</h1>;
+
   return (
     <div className="flex h-screen bg-gray-50">
       <AdminSidebar
@@ -26,7 +28,10 @@ export default function AdminLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
-        <AdminNavbar onMenuClick={() => setSidebarOpen(true)} />
+        <AdminNavbar
+          onMenuClick={() => setSidebarOpen(true)}
+          name="Edmilson Matari"
+        />
 
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">

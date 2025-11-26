@@ -7,184 +7,188 @@ export default function EcommerceFooter() {
       <div className="border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-            {/* Brand + Contact Info */}
+            {/* Marca + Informações de Contato */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
                 <ShoppingCart className="h-10 w-10 text-orange-500" />
                 <div>
-                  <h3 className="text-2xl font-bold text-white">E-Com Shop</h3>
-                  <p className="text-sm text-gray-400">Shopping Made Easy</p>
+                  <h3 className="text-2xl font-bold text-white">
+                    Mundial Económico
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    Comprar feito de maneira fácil
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-4 text-sm">
                 <div>
-                  <p className="font-semibold text-white">ADDRESS:</p>
+                  <p className="font-semibold text-white">ENDEREÇO:</p>
                   <p className="mt-1">
-                    09 Ecommerceshop,
+                    Rua do Comércio, 123
                     <br />
-                    Design Street, Victoria, Australia
+                    Luanda, Angola
                   </p>
                 </div>
 
                 <div>
                   <p className="font-semibold text-white">E-MAIL:</p>
                   <a
-                    href="mailto:info@ecommerceshop.com"
+                    href="mailto:suporte@mundialeconomico.com"
                     className="hover:text-orange-400 transition"
                   >
-                    info@ecommerceshop.com
+                    suporte@mundialeconomico.com
                   </a>
                 </div>
 
                 <div>
-                  <p className="font-semibold text-white">PHONE:</p>
+                  <p className="font-semibold text-white">TELEFONE:</p>
                   <a
-                    href="tel:+0112345678"
+                    href="tel:+244923456789"
                     className="hover:text-orange-400 transition"
                   >
-                    +01 123 456 78
+                    +244 923 456 789
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* My Account */}
+            {/* Minha Conta */}
             <div>
               <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">
-                My Account
+                Minha Conta
               </h4>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    My Account
+                    Minha Conta
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Wishlist
+                    Lista de Desejos
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Shopping Cart
+                    Carrinho de Compras
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Checkout
+                    Finalizar Compra
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Information */}
+            {/* Informações */}
             <div>
               <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">
-                Information
+                Informações
               </h4>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    About Our Shop
+                    Sobre a Loja
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Top Seller
+                    Mais Vendidos
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Special Products
+                    Produtos em Destaque
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Manufacturers
+                    Fornecedores
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Secure Shopping
+                    Compras Seguras
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Privacy Policy
+                    Política de Privacidade
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Delivery Information
+                    Entregas e Prazos
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Our Support */}
+            {/* Suporte */}
             <div>
               <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">
-                Our Support
+                Suporte
               </h4>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Contact Us
+                    Contacte-nos
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Shipping & Taxes
+                    Envios e Taxas
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Return Policy
+                    Política de Devolução
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Careers
+                    Carreiras
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Affiliates
+                    Afiliados
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Gift Vouchers
+                    Vale-Presente
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Our Services */}
+            {/* Nossos Serviços */}
             <div>
               <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">
-                Our Services
+                Nossos Serviços
               </h4>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Shipping & Returns
+                    Envios e Devoluções
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    International Shopping
+                    Compras Internacionais
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Best Customer Support
+                    Melhor Suporte ao Cliente
                   </a>
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Easy Replacement
+                    Troca Fácil
                   </a>
                 </li>
               </ul>
@@ -193,11 +197,11 @@ export default function EcommerceFooter() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Barra Inferior */}
       <div className="bg-black py-6">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-sm">
           <p className="text-gray-400 mb-4 md:mb-0">
-            © 2025 E-ComShop. All Rights Reserved
+            © 2025 Mundial Económico. Todos os direitos reservados.
           </p>
 
           <div className="flex space-x-4">
@@ -208,8 +212,16 @@ export default function EcommerceFooter() {
             />
             <img src="/payment/visa.svg" alt="Visa" className="h-8" />
             <img src="/payment/paypal.svg" alt="PayPal" className="h-8" />
-            <img src="/payment/discover.svg" alt="Discover" className="h-8" />
-            <img src="/payment/bank.svg" alt="Bank Transfer" className="h-8" />
+            <img
+              src="/payment/multicaixa.svg"
+              alt="Multicaixa"
+              className="h-8"
+            />
+            <img
+              src="/payment/bank-transfer.svg"
+              alt="Transferência Bancária"
+              className="h-8"
+            />
           </div>
         </div>
       </div>

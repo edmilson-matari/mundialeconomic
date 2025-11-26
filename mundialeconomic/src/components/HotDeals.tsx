@@ -47,7 +47,7 @@ const deals = [
     productName: "Vitamin C Glow Serum",
     price: 59,
     image:
-      "https://images.unsplash.com/photo-1625772292130-c5af89e24ca5?w=800&h=1000&fit=crop",
+      "https://images-cdn.ubuy.co.in/68fb75366786fcc0770d7bff-professional-vitamin-c-face-serum-20.jpg",
     store: {
       name: "Glow Beauty Studio",
       logo: "https://images.unsplash.com/photo-1596462502278-ffb48ada4f7b?w=80&h=80&fit=crop",
@@ -98,7 +98,7 @@ export default function HotDeals() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-              HOT DEALS
+              QUENTES
             </h2>
             <div className="w-20 h-1 bg-orange-500 mt-2"></div>
           </div>

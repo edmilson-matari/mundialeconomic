@@ -14,6 +14,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { uploadFile } from "../utils/utils";
+import { categories } from "./Types/categories";
 import supabase from "../supabase-client";
 
 interface AddShopModalProps {
@@ -21,15 +22,6 @@ interface AddShopModalProps {
   onClose: () => void;
   onStoreAdded: (newStore: any) => void;
 }
-
-const categories = [
-  { value: "Roupas", name: "Roupa e Vestuário" },
-  { value: "Acessórios", name: "Acessórios" },
-  { value: "Comida e bebidas", name: "Comida e Bebida" },
-  { value: "Electrónicos", name: "Eletrônicos" },
-  { value: "Beleza", name: "Beleza" },
-  { value: "Outro", name: "Outro" },
-];
 
 export default function AddShopModal({
   isOpen,

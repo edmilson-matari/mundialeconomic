@@ -3,32 +3,81 @@
 import { useState } from "react";
 import {
   LayoutDashboard,
-  Package,
-  FileText,
   Shield,
-  Settings,
   LogOut,
-  ChevronRight,
   ChevronLeft,
   FolderOpen,
   ShoppingBag,
   Users,
   BarChart3,
+  AlertCircle,
 } from "lucide-react";
 import { clsx } from "clsx";
-
-interface MenuItem {
-  icon: React.ReactNode;
-  label: string;
-  href?: string;
-  active?: boolean;
-  submenu?: MenuItem[];
-}
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   logOut: () => void;
+}
+
+// components/ConfirmLogoutModal.tsx
+
+interface ConfirmLogoutModalProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+function ConfirmLogoutModal({
+  isOpen,
+  onConfirm,
+  onCancel,
+}: ConfirmLogoutModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-200">
+        {/* Cabeçalho com ícone de alerta */}
+        <div className="bg-gradient-to-r from-green-500 to-gr-600 p-6 text-white">
+          <div className="flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mx-auto mb-4">
+            <AlertCircle className="w-10 h-10" />
+          </div>
+          <h2 className="text-2xl font-bold text-center">Sair da conta?</h2>
+        </div>
+
+        {/* Conteúdo */}
+        <div className="p-8 text-center space-y-6">
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Tem certeza que deseja{" "}
+            <span className="font-semibold text-red-600">
+              terminar a sessão
+            </span>
+            ?
+            <br />
+            Você será redirecionado para a tela de login.
+          </p>
+
+          {/* Botões */}
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={onCancel}
+              className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-all duration-200"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-all duration-200 flex items-center gap-3 shadow-lg"
+            >
+              <LogOut className="w-5 h-5" />
+              Sim, sair
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function AdminSidebar({
@@ -60,6 +109,8 @@ export default function AdminSidebar({
     },
     { icon: <Shield className="w-5 h-5" />, label: "Auth" },
   ];
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <>
@@ -129,7 +180,7 @@ export default function AdminSidebar({
         {/* Logout */}
         <div className="p-4 border-t">
           <button
-            onClick={logOut}
+            onClick={() => setShowLogoutModal(true)}
             className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg"
           >
             <LogOut className="w-5 h-5" />
@@ -137,6 +188,14 @@ export default function AdminSidebar({
           </button>
         </div>
       </aside>
+      <ConfirmLogoutModal
+        isOpen={showLogoutModal}
+        onConfirm={() => {
+          logOut();
+          setShowLogoutModal(false);
+        }}
+        onCancel={() => setShowLogoutModal(false)}
+      />
     </>
   );
 }

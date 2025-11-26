@@ -1,4 +1,5 @@
 import { Percent } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function PromotionBanners() {
   const banners = [
@@ -7,7 +8,7 @@ export default function PromotionBanners() {
       subtitle: "Descontos até 30%",
       cta: "Comprar agora",
       image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop&blur=8",
+        "https://ogrowthmarketer.com.br/wp-content/uploads/2024/08/Preto-Lua-Blog-Banner-34.webp",
       overlay: "from-black/80 via-black/60 to-transparent",
     },
     {
@@ -15,15 +16,15 @@ export default function PromotionBanners() {
       subtitle: "Descontos de até 50%",
       cta: "Comprar agora",
       image:
-        "https://images.unsplash.com/photo-1606787620651-8c9f2d2c0e0f?w=1200&h=800&fit=crop&blur=8",
+        "https://viverbem.unimed.coop.br/wp-content/uploads/2015/01/alimentos-in-natura.jpg",
       overlay: "from-blue-700/80 via-blue-600/60 to-transparent",
     },
     {
-      title: "Productos e Serviços de Qualidade",
+      title: "Comece agora",
       subtitle: "Descontos em compra no site",
       cta: "Comprar agora",
       image:
-        "https://images.unsplash.com/photo-1571091718767-18b5b1457a80?w=1200&h=800&fit=crop&blur=8",
+        "https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia1025/industria-cosmeticos-atividade-lucrativa-atende-busca-beleza-saude-cpt.jpg",
       overlay: "from-teal-700/80 via-teal-600/60 to-transparent",
     },
   ];
@@ -56,9 +57,11 @@ export default function PromotionBanners() {
                 <p className="mt-2 text-lg md:text-xl font-medium opacity-95 drop-shadow-lg">
                   {banner.subtitle}
                 </p>
-                <button className="mt-6 px-8 py-3 bg-white text-gray-900 font-bold rounded-full text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-110 transition">
-                  {banner.cta}
-                </button>
+                <Link to={"/lojas"}>
+                  <button className="mt-6 px-8 py-3 bg-white text-gray-900 font-bold rounded-full text-sm md:text-base shadow-lg hover:shadow-xl hover:scale-110 transition">
+                    {banner.cta}
+                  </button>
+                </Link>
               </div>
 
               {/* Optional: Floating Discount Badge */}
