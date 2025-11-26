@@ -90,7 +90,7 @@ export default function Login() {
                 placeholder="••••••••"
               />
               <p className="text-xs text-gray-500 mt-2">
-                Dica: admin@marketplace.com / admin123
+                Dica: admin@market.com / admin1234
               </p>
             </div>
 
