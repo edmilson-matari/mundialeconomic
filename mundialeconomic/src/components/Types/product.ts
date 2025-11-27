@@ -9,7 +9,7 @@ export interface ProductDetail {
     | { type: "new"; text: "NEW" }
     | { type: "discount"; percent: number }
     | { type: "hot"; text: "HOT" };
-  image: string;
+  image_url: string;
   stock: number;
   status: "active" | "inactive";
   stores: StoreData;

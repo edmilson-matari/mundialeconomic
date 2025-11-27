@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           )}
 
           <img
-            src={product.image}
+            src={product.image_url}
             alt={product.productName}
             className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500"
           />

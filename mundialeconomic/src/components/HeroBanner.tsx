@@ -66,7 +66,7 @@ const HeroBanner: React.FC<StoreProps> = ({ store }) => {
                   </span>
                   <span className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
-                    Juntou-se em {store.joinedDate}
+                    Juntou-se em {store.joined_date}
                   </span>
                 </div>
               </div>

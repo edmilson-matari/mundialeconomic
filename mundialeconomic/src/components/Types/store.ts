@@ -11,7 +11,7 @@ export interface StoreData {
   rating: number;
   totalReviews: number;
   totalProducts: number;
-  joinedDate: string;
+  joined_date: string;
   location: string;
   description: string;
   isVerified: boolean;
