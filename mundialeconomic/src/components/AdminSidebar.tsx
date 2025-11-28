@@ -101,7 +101,11 @@ export default function AdminSidebar({
       label: "Usuários",
       href: "/admin/users",
     },
-    { icon: <BarChart3 className="w-5 h-5" />, label: "Analytics" },
+    {
+      icon: <BarChart3 className="w-5 h-5" />,
+      label: "Productos",
+      href: "/admin/productos",
+    },
     {
       icon: <FolderOpen className="w-5 h-5" />,
       label: "Páginas",
@@ -117,7 +121,7 @@ export default function AdminSidebar({
       {/* Mobile Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
           onClick={onClose}
         />
       )}

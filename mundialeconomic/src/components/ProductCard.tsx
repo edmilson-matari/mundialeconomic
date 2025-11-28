@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           <div className="mt-3 flex items-center gap-2">
             <span className="text-xl font-bold text-gray-900">
-              ${product.price.toFixed(2)}
+              Kz {product.price.toFixed(2)}
             </span>
             {product.oldPrice && (
               <span className="text-sm text-gray-400 line-through">

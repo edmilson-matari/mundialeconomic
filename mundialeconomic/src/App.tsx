@@ -10,6 +10,7 @@ import ManagementPage from "./components/Pages/ManagementPage";
 import ContactPage from "./components/Pages/ContactPage";
 import UserLogin from "./components/Pages/UserLogin";
 import CreateAccount from "./components/Pages/CreateAccount";
+import ProductsManagement from "./components/Pages/ProductsManagement";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
@@ -51,6 +52,7 @@ const App = () => {
       children: [
         { path: "/admin/stores", element: <AdminDash /> },
         { path: "/admin/users", element: <ManagementPage /> },
+        { path: "/admin/productos", element: <ProductsManagement /> },
       ],
     },
     {
