@@ -9,12 +9,10 @@ import {
   Trash2,
   Save,
   Upload,
-  Image as ImageIcon,
   Package,
-  DollarSign,
-  Tag,
   ToggleLeft,
   ToggleRight,
+  LoaderPinwheel,
 } from "lucide-react";
 import supabase from "../supabase-client";
 import toast from "react-hot-toast";
@@ -72,6 +70,10 @@ export default function StoreProductsModal({
     }
     setLoading(false);
   };
+
+  if (loading) {
+    <LoaderPinwheel />;
+  }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

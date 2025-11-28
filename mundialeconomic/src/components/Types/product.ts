@@ -13,4 +13,5 @@ export interface ProductDetail {
   stock: number;
   status: "active" | "inactive";
   stores: StoreData;
+  rating: number;
 }

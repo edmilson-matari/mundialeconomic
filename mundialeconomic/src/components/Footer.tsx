@@ -25,7 +25,7 @@ export default function EcommerceFooter() {
                 <div>
                   <p className="font-semibold text-white">ENDEREÇO:</p>
                   <p className="mt-1">
-                    Rua do Comércio, 123
+                    Mundial, Praça Nova
                     <br />
                     Luanda, Angola
                   </p>
@@ -37,17 +37,17 @@ export default function EcommerceFooter() {
                     href="mailto:suporte@mundialeconomico.com"
                     className="hover:text-orange-400 transition"
                   >
-                    suporte@mundialeconomico.com
+                    ffunseparate@gmail.com
                   </a>
                 </div>
 
                 <div>
                   <p className="font-semibold text-white">TELEFONE:</p>
                   <a
-                    href="tel:+244923456789"
+                    href="tel:+244942452552"
                     className="hover:text-orange-400 transition"
                   >
-                    +244 923 456 789
+                    +244 942 452 552
                   </a>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function EcommerceFooter() {
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Sobre a Loja
+                    Sobre o site
                   </a>
                 </li>
                 <li>
@@ -118,11 +118,6 @@ export default function EcommerceFooter() {
                     Política de Privacidade
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
-                    Entregas e Prazos
-                  </a>
-                </li>
               </ul>
             </div>
 
@@ -139,27 +134,7 @@ export default function EcommerceFooter() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
-                    Envios e Taxas
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
                     Política de Devolução
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
-                    Carreiras
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
-                    Afiliados
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
-                    Vale-Presente
                   </a>
                 </li>
               </ul>
@@ -171,11 +146,6 @@ export default function EcommerceFooter() {
                 Nossos Serviços
               </h4>
               <ul className="space-y-3">
-                <li>
-                  <a href="#" className="hover:text-orange-400 transition">
-                    Envios e Devoluções
-                  </a>
-                </li>
                 <li>
                   <a href="#" className="hover:text-orange-400 transition">
                     Compras Internacionais
@@ -204,7 +174,7 @@ export default function EcommerceFooter() {
             © 2025 Mundial Económico. Todos os direitos reservados.
           </p>
 
-          <div className="flex space-x-4">
+          {/*<div className="flex space-x-4">
             <img
               src="/payment/mastercard.svg"
               alt="Mastercard"
@@ -222,7 +192,7 @@ export default function EcommerceFooter() {
               alt="Transferência Bancária"
               className="h-8"
             />
-          </div>
+          </div>*/}
         </div>
       </div>
     </footer>

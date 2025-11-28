@@ -9,11 +9,8 @@ import {
   Edit,
   Trash2,
   X,
-  Save,
   Upload,
   Image as ImageIcon,
-  Menu,
-  Search,
 } from "lucide-react";
 import supabase from "../../supabase-client";
 import toast from "react-hot-toast";
@@ -411,11 +408,7 @@ export default function StoresProductsManager() {
                     </div>
                   ) : products.length === 0 ? (
                     <div className="text-center py-20">
-                      <img
-                        src="/empty.svg"
-                        className="w-48 mx-auto opacity-70 mb-6"
-                        alt=""
-                      />
+                      <Package className="w-90 mx-auto opacity-70 mb-6" />
                       <h3 className="text-lg font-semibold text-gray-700">
                         Nenhum produto encontrado
                       </h3>
@@ -482,6 +475,7 @@ export default function StoresProductsManager() {
             </>
           ) : (
             <div className="flex flex-1 items-center justify-center text-gray-600">
+              <Package />
               Selecione uma loja para visualizar os produtos.
             </div>
           )}
