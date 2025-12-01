@@ -25,9 +25,9 @@ export default function HotDealCard({ product }: HotDealCardProps) {
     <div className="flex-none w-full sm:w-80 md:w-72 lg:w-80">
       <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
         {/* Imagem com altura fixa */}
-        <div className="relative bg-gray-50 h-64 flex items-center justify-center overflow-hidden">
+        <div className="relative bg-gray-50 h-60 flex items-center justify-center overflow-hidden">
           <img
-            src={product.image_url || "/placeholder-product.jpg"}
+            src={product.image_url}
             alt={product.productName}
             className="object-contain transition-transform duration-500 group-hover:scale-105"
           />

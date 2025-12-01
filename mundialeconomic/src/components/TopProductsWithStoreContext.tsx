@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import HotDealCard from "./HotDealsCard";
 import type { ProductDetail } from "./Types/product";
 import supabase from "../supabase-client";
+import MobileCompactProductCard from "../components/MobileCompactProductCard";
 
 export default function TopProductsWithStoreContext() {
   const [activeTab, setActiveTab] = useState<"new" | "popular" | "bestseller">(
@@ -42,7 +43,7 @@ export default function TopProductsWithStoreContext() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 font-medium transition capitalize ${
+                className={`px-4 py-3 font-medium transition capitalize ${
                   activeTab === tab
                     ? "bg-gray-900 text-white"
                     : "text-gray-700 hover:bg-gray-100"
@@ -59,7 +60,12 @@ export default function TopProductsWithStoreContext() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:hidden">
+          {product.map((prod) => (
+            <MobileCompactProductCard key={prod.id} product={prod} />
+          ))}
+        </div>
+        <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {product
             .slice(0, 3) // Mostra apenas os 3 primeiros
             .map((prod) => (
