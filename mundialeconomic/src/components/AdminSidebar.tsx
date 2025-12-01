@@ -89,6 +89,7 @@ export default function AdminSidebar({
     {
       icon: <LayoutDashboard className="w-5 h-5" />,
       label: "Dashboard",
+      href: "/admin",
       active: true,
     },
     {
@@ -148,7 +149,7 @@ export default function AdminSidebar({
         </div>
 
         {/* User */}
-        <div className="p-6 border-b">
+        <div className="p-6 ">
           <div className="flex items-center gap-4">
             <img
               src="https://randomuser.me/api/portraits/men/32.jpg"
@@ -157,7 +158,6 @@ export default function AdminSidebar({
             />
             <div>
               <h3 className="font-semibold">Jitu Chauhan</h3>
-              <p className="text-xs text-gray-500">Free Version - 1 Month</p>
             </div>
           </div>
         </div>

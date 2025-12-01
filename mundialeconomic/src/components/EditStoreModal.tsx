@@ -1,52 +1,54 @@
+// components/admin/EditStoreModal.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Plus, CheckCircle, Upload } from "lucide-react";
+import {
+  X,
+  Upload,
+  CheckCircle,
+  Store as StoreIcon,
+  Image as ImageIcon,
+} from "lucide-react";
 import supabase from "../supabase-client";
+import toast from "react-hot-toast";
 
-interface Product {
-  id?: string;
-  productName: string;
-  stock: number;
-  status: boolean;
-}
-
-interface NewProduct {
-  productName: string;
-  price: string;
-  stock: string;
-  image: File | null;
-  imagePreview: string | null;
+interface StoreData {
+  id: number;
+  name: string;
+  owner: string;
+  logo: string | null;
+  banner: string | null; // ← novo campo
+  phone: string | null;
+  website: string | null;
+  description: string | null;
 }
 
 interface EditStoreModalProps {
-  editingProduct: Product | null;
-  setEditingProduct: (product: Product | null) => void;
-  handleSaveEdit: () => void;
-  storeId: string;
+  store: StoreData | null;
+  onClose: () => void;
+  onSave: () => void;
 }
 
 export default function EditStoreModal({
-  editingProduct,
-  setEditingProduct,
-  storeId,
+  store,
+  onClose,
+  onSave,
 }: EditStoreModalProps) {
-  const [showAddProduct, setShowAddProduct] = useState(false);
-  const [newProducts, setNewProducts] = useState<NewProduct[]>([]);
-  const [currentProduct, setCurrentProduct] = useState<NewProduct>({
-    productName: "",
-    price: "",
-    stock: "",
-    image: null,
-    imagePreview: null,
+  const [form, setForm] = useState<StoreData>({
+    id: store?.id || 0,
+    name: store?.name || "",
+    owner: store?.owner || "",
+    logo: store?.logo || null,
+    banner: store?.banner || null,
+    phone: store?.phone || "",
+    website: store?.website || "",
+    description: store?.description || "",
   });
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadMessage, setUploadMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
 
-  // Prevent background scrolling when modal is open
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+
+  // Bloqueia scroll do body
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -54,322 +56,312 @@ export default function EditStoreModal({
     };
   }, []);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setCurrentProduct({
-        ...currentProduct,
-        image: file,
-        imagePreview: URL.createObjectURL(file),
-      });
-    }
-  };
+  if (!store) return null;
 
-  const addCurrentProduct = () => {
-    if (
-      !currentProduct.productName.trim() ||
-      !currentProduct.price.trim() ||
-      !currentProduct.stock.trim() ||
-      !currentProduct.image
-    ) {
-      alert("Preencha todos os campos do produto!");
+  // Upload Logo
+  const uploadLogo = async (file: File) => {
+    setUploadingLogo(true);
+    const fileName = `logo-${store.id}-${Date.now()}`;
+    const { error } = await supabase.storage
+      .from("stores")
+      .upload(`logos/${fileName}`, file, { upsert: false });
+
+    if (error) {
+      toast.error("Erro ao enviar logo");
+      setUploadingLogo(false);
       return;
     }
-    setNewProducts((prev) => [...prev, { ...currentProduct }]);
-    setCurrentProduct({
-      productName: "",
-      price: "",
-      stock: "",
-      image: null,
-      imagePreview: null,
-    });
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("stores").getPublicUrl(`logos/${fileName}`);
+
+    setForm((prev) => ({ ...prev, logo: publicUrl }));
+    setUploadingLogo(false);
+    toast.success("Logo atualizado!");
   };
 
-  const removeProduct = (index: number) => {
-    setNewProducts((prev) => prev.filter((_, i) => i !== index));
-  };
+  if (uploadingLogo) return <div>Carregando Logo</div>;
 
-  const uploadImage = async (file: File): Promise<string | null> => {
-    const fileExt = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const fileName = `${storeId}/${Date.now()}-${Math.random()
-      .toString(36)
-      .substr(2, 9)}.${fileExt}`;
-
+  // Upload Banner
+  const uploadBanner = async (file: File) => {
+    setUploadingBanner(true);
+    const fileName = `banner-${store.id}-${Date.now()}`;
     const { error } = await supabase.storage
-      .from("products")
-      .upload(fileName, file, { upsert: false });
+      .from("stores")
+      .upload(`banners/${fileName}`, file);
 
-    if (error) return null;
+    if (error) {
+      toast.error("Erro ao enviar banner");
+      setUploadingBanner(false);
+      return;
+    }
 
-    const { data } = supabase.storage.from("products").getPublicUrl(fileName);
-    return data.publicUrl;
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("stores").getPublicUrl(`banners/${fileName}`);
+
+    setForm((prev) => ({ ...prev, banner: publicUrl }));
+    setUploadingBanner(false);
+    toast.success("Banner atualizado!");
   };
 
-  const saveAllProducts = async () => {
-    if (newProducts.length === 0) return;
-    setIsUploading(true);
-    setUploadMessage(null);
+  const handleSave = async () => {
+    if (!form.name.trim() || !form.owner.trim()) {
+      toast.error("Nome e dono são obrigatórios");
+      return;
+    }
 
-    try {
-      const productsToInsert = [];
+    const { error } = await supabase
+      .from("stores")
+      .update({
+        name: form.name,
+        owner: form.owner,
+        logo: form.logo,
+        banner: form.banner,
+        phone: form.phone || null,
+        website: form.website || null,
+        description: form.description || null,
+      })
+      .eq("id", store.id);
 
-      for (const prod of newProducts) {
-        if (!prod.image) continue;
-        const imageUrl = await uploadImage(prod.image);
-        if (!imageUrl)
-          throw new Error(
-            `Falha ao subir imagem do produto: ${prod.productName}`
-          );
-        productsToInsert.push({
-          store_id: storeId,
-          productName: prod.productName,
-          price: parseFloat(prod.price),
-          stock: parseInt(prod.stock, 10),
-          image_url: imageUrl,
-        });
-      }
-
-      const { error } = await supabase
-        .from("products")
-        .insert(productsToInsert);
-      if (error) throw error;
-
-      setUploadMessage({
-        type: "success",
-        text: `${productsToInsert.length} produto(s) adicionado(s)!`,
-      });
-      setNewProducts([]);
-      setShowAddProduct(false);
-
-      setTimeout(() => setUploadMessage(null), 4000);
-    } catch (err: any) {
-      setUploadMessage({
-        type: "error",
-        text: err.message || "Erro ao salvar produtos",
-      });
-      setTimeout(() => setUploadMessage(null), 5000);
-    } finally {
-      setIsUploading(false);
+    if (error) toast.error("Erro ao salvar");
+    else {
+      toast.success("Loja atualizada com sucesso!");
+      onSave();
+      onClose();
     }
   };
-
-  if (!editingProduct) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-      role="dialog"
-      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-screen overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
-          <h2 className="text-xl font-bold">Editar Loja</h2>
+      {/* Modal com scroll apenas no conteúdo */}
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
+        {/* HEADER FIXO */}
+        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-t-3xl shrink-0">
+          <div className="flex items-center gap-4">
+            <StoreIcon className="w-10 h-10" />
+            <div>
+              <h2 className="text-2xl font-bold">Editar Loja</h2>
+              <p className="text-sm opacity-90">
+                Atualize todos os dados da loja
+              </p>
+            </div>
+          </div>
           <button
-            onClick={() => setEditingProduct(null)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
-            aria-label="Fechar modal"
+            onClick={onClose}
+            className="p-3 bg-white/20 hover:bg-white/30 rounded-xl transition"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
-          {/* Store Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nome da Loja
-              </label>
-              <input
-                type="text"
-                value={editingProduct.productName}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    productName: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Estoque Total
-              </label>
-              <input
-                type="number"
-                value={editingProduct.stock}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    stock: Number(e.target.value) || 0,
-                  })
-                }
-                className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <div className="flex gap-3">
-                <button
-                  onClick={() =>
-                    setEditingProduct({ ...editingProduct, status: true })
-                  }
-                  className={`px-5 py-2.5 rounded-lg font-medium transition ${
-                    editingProduct.status
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  Ativo
-                </button>
-                <button
-                  onClick={() =>
-                    setEditingProduct({ ...editingProduct, status: false })
-                  }
-                  className={`px-5 py-2.5 rounded-lg font-medium transition ${
-                    !editingProduct.status
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  Inativo
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Upload Feedback */}
-          {uploadMessage && (
-            <div
-              className={`flex items-center gap-2 p-4 rounded-lg ${
-                uploadMessage.type === "success"
-                  ? "bg-green-50 text-green-700"
-                  : "bg-red-50 text-red-700"
-              }`}
-            >
-              <CheckCircle className="w-5 h-5" />
-              {uploadMessage.text}
-            </div>
-          )}
-
-          {/* Add Product Section */}
-          <div className="pt-4 border-t">
-            <button
-              onClick={() => setShowAddProduct(!showAddProduct)}
-              className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition font-medium"
-            >
-              <Plus className="w-5 h-5" />
-              {showAddProduct ? "Fechar" : "Adicionar Produtos"}
-              {newProducts.length > 0 && (
-                <span className="ml-3 bg-white/30 px-3 py-1 rounded-full text-sm">
-                  {newProducts.length} na lista
-                </span>
-              )}
-            </button>
-
-            {showAddProduct && (
-              <div className="mt-4 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Nome do Produto"
-                    value={currentProduct.productName}
-                    onChange={(e) =>
-                      setCurrentProduct({
-                        ...currentProduct,
-                        productName: e.target.value,
-                      })
-                    }
-                    className="col-span-1 md:col-span-1 px-4 py-2 border rounded-xl focus:ring-2 focus:ring-orange-500"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Preço"
-                    value={currentProduct.price}
-                    onChange={(e) =>
-                      setCurrentProduct({
-                        ...currentProduct,
-                        price: e.target.value,
-                      })
-                    }
-                    className="px-4 py-2 border rounded-xl focus:ring-2 focus:ring-orange-500"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Estoque"
-                    value={currentProduct.stock}
-                    onChange={(e) =>
-                      setCurrentProduct({
-                        ...currentProduct,
-                        stock: e.target.value,
-                      })
-                    }
-                    className="px-4 py-2 border rounded-xl focus:ring-2 focus:ring-orange-500"
-                  />
-                  <label className="flex items-center justify-center gap-2 px-4 py-2 border rounded-xl cursor-pointer hover:bg-orange-50 transition text-gray-600">
-                    <Upload className="w-5 h-5" />
-                    {currentProduct.image
-                      ? "Imagem Selecionada"
-                      : "Selecionar Imagem"}
+        {/* CONTEÚDO COM SCROLL */}
+        <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
+          {/* Banner */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5" /> Banner da Loja
+            </h3>
+            {form.banner ? (
+              <div className="relative group rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src={form.banner}
+                  alt="Banner"
+                  className="w-full h-64 md:h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                  <label className="cursor-pointer bg-white/90 hover:bg-white px-6 py-3 rounded-xl font-medium flex items-center gap-2">
+                    <Upload className="w-5 h-5" /> Trocar Banner
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={handleImageChange}
+                      onChange={(e) =>
+                        e.target.files?.[0] && uploadBanner(e.target.files[0])
+                      }
+                      className="hidden"
+                      disabled={uploadingBanner}
+                    />
+                  </label>
+                </div>
+                <button
+                  onClick={() => setForm((prev) => ({ ...prev, banner: null }))}
+                  className="absolute top-4 right-4 bg-red-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+              <label className="flex flex-col items-center justify-center w-full h-64 md:h-80 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition bg-gray-50">
+                {uploadingBanner ? (
+                  <div className="text-center">
+                    <div className="animate-spin w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full mx-auto mb-4" />
+                    <p className="text-gray-600">Enviando banner...</p>
+                  </div>
+                ) : (
+                  <>
+                    <Upload className="w-16 h-16 text-gray-400 mb-4" />
+                    <p className="text-xl font-semibold text-gray-700">
+                      Enviar Banner
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      1920x600 recomendado • PNG, JPG
+                    </p>
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    e.target.files?.[0] && uploadBanner(e.target.files[0])
+                  }
+                  className="hidden"
+                  disabled={uploadingBanner}
+                />
+              </label>
+            )}
+          </div>
+
+          {/* Logo + Nome + Dono */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Logo</h3>
+              {form.logo ? (
+                <div className="relative group">
+                  <img
+                    src={form.logo}
+                    alt="Logo"
+                    className="w-full h-48 object-contain bg-gray-50 rounded-2xl p-4 shadow-md"
+                  />
+                  <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer rounded-2xl">
+                    <span className="bg-white px-4 py-2 rounded-lg font-medium">
+                      Trocar
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        e.target.files?.[0] && uploadLogo(e.target.files[0])
+                      }
                       className="hidden"
                     />
                   </label>
                 </div>
-
-                {currentProduct.imagePreview && (
-                  <img
-                    src={currentProduct.imagePreview}
-                    alt="Preview do Produto"
-                    className="w-40 h-40 object-cover rounded-xl border mt-2"
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer hover:border-orange-500 hover:bg-orange-50 bg-gray-50">
+                  <Upload className="w-12 h-12 text-gray-400 mb-3" />
+                  <p className="font-medium">Enviar Logo</p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      e.target.files?.[0] && uploadLogo(e.target.files[0])
+                    }
+                    className="hidden"
                   />
-                )}
+                </label>
+              )}
+            </div>
 
-                <button
-                  onClick={addCurrentProduct}
-                  className="px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition font-medium"
-                >
-                  Adicionar à lista
-                </button>
-
-                {/* Lista de produtos novos */}
-                {newProducts.length > 0 && (
-                  <ul className="mt-4 space-y-2">
-                    {newProducts.map((prod, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center justify-between p-3 border rounded-xl"
-                      >
-                        <span>{prod.productName}</span>
-                        <button
-                          onClick={() => removeProduct(i)}
-                          className="text-red-600 hover:text-red-700 transition"
-                          aria-label={`Remover ${prod.productName}`}
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <button
-                  onClick={saveAllProducts}
-                  disabled={isUploading}
-                  className="mt-4 w-full px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition font-medium"
-                >
-                  {isUploading ? "Enviando..." : "Salvar Todos os Produtos"}
-                </button>
+            <div className="md:col-span-2 space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Nome da Loja
+                </label>
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                  className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-lg"
+                  placeholder="TechStore Angola"
+                />
               </div>
-            )}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Dono / Responsável
+                </label>
+                <input
+                  type="text"
+                  value={form.owner}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, owner: e.target.value }))
+                  }
+                  className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                  placeholder="João Silva"
+                />
+              </div>
+            </div>
           </div>
+
+          {/* Contacto + Website */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Telefone
+              </label>
+              <input
+                type="text"
+                value={form.phone || ""}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, contact: e.target.value }))
+                }
+                className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                placeholder="+244 923 456 789"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Website
+              </label>
+              <input
+                type="url"
+                value={form.website || ""}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, website: e.target.value }))
+                }
+                className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                placeholder="https://minhaloja.com"
+              />
+            </div>
+          </div>
+
+          {/* Descrição */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Descrição da Loja
+            </label>
+            <textarea
+              rows={4}
+              value={form.description || ""}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, description: e.target.value }))
+              }
+              className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none resize-none"
+              placeholder="Conte um pouco sobre a sua loja, produtos, missão..."
+            />
+          </div>
+        </div>
+
+        {/* FOOTER FIXO */}
+        <div className="p-6 border-t bg-gray-50 shrink-0 flex justify-end gap-4">
+          <button
+            onClick={onClose}
+            className="px-4 py-4 border border-gray-300 rounded-xl hover:bg-gray-100 font-medium transition"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleSave}
+            className="px-4 py-4 bg-orange-600 text-white rounded-xl hover:bg-orange-700 font-semibold transition shadow-lg flex items-center gap-3"
+          >
+            <CheckCircle className="w-5 h-5" />
+            Salvar Alterações
+          </button>
         </div>
       </div>
     </div>

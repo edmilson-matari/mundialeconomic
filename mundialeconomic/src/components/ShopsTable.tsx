@@ -319,10 +319,9 @@ export default function ProductsTable() {
       {/* Edit Modal */}
       {editingProduct && (
         <EditStoreModal
-          editingProduct={editingProduct}
-          setEditingProduct={setEditingProduct}
-          handleSaveEdit={handleSaveEdit}
-          storeId={editingProduct.id}
+          store={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onSave={handleSaveEdit}
         />
       )}
 

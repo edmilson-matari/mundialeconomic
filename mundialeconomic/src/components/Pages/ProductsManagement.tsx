@@ -46,7 +46,7 @@ function ProductModal({
     productName: product?.productName || "",
     price: product?.price?.toString() || "",
     stock: product?.stock?.toString() || "",
-    image_url: product?.image_url || "",
+    image_url: product?.image_url,
   });
 
   const [uploading, setUploading] = useState(false);
@@ -59,7 +59,7 @@ function ProductModal({
     const fileName = `${Date.now()}_${file.name}`;
 
     const { error } = await supabase.storage
-      .from("product-images")
+      .from("products")
       .upload(`store_${storeId}/${fileName}`, file);
 
     if (error) {
@@ -71,7 +71,7 @@ function ProductModal({
     const {
       data: { publicUrl },
     } = supabase.storage
-      .from("product-images")
+      .from("products")
       .getPublicUrl(`store_${storeId}/${fileName}`);
 
     setForm((prev) => ({ ...prev, image_url: publicUrl }));
@@ -90,7 +90,9 @@ function ProductModal({
       productName: form.productName,
       price: Number(form.price),
       stock: Number(form.stock),
-      image_url: form.image_url || "https://via.placeholder.com/300",
+      image_url:
+        form.image_url ||
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png",
     };
 
     if (product) {

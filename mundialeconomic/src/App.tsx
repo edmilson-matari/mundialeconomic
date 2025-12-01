@@ -11,6 +11,7 @@ import ContactPage from "./components/Pages/ContactPage";
 import UserLogin from "./components/Pages/UserLogin";
 import CreateAccount from "./components/Pages/CreateAccount";
 import ProductsManagement from "./components/Pages/ProductsManagement";
+import Analytics from "./components/Pages/Analytics";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
@@ -50,6 +51,10 @@ const App = () => {
       path: "/admin",
       element: <ProtectedLayout />,
       children: [
+        {
+          path: "/admin",
+          element: <Analytics />,
+        },
         { path: "/admin/stores", element: <AdminDash /> },
         { path: "/admin/users", element: <ManagementPage /> },
         { path: "/admin/productos", element: <ProductsManagement /> },
