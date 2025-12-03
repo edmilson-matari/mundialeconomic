@@ -9,9 +9,9 @@ import {
   Mail,
   Phone,
   MapPin,
-  Globe,
   Check,
   Image as ImageIcon,
+  MessageCircle,
 } from "lucide-react";
 import { uploadFile } from "../utils/utils";
 import { categories } from "./Types/categories";
@@ -328,7 +328,8 @@ export default function AddShopModal({
 
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                  <Globe className="w-4 h-4" /> Site (opcional)
+                  <MessageCircle className="w-4 h-4" /> Link do Canal ou Grupo
+                  do Whatsapp
                 </label>
                 <input
                   type="url"

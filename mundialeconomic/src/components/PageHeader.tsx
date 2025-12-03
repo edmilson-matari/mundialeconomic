@@ -25,7 +25,7 @@ export default function PageHeader({
 
   const handleNewStore = (newStore: any) => {
     console.log(store);
-    setStore((prev) => [newStore, ...prev]); // ← Atualiza em tempo real
+    setStore((prev) => [newStore, ...prev]);
   };
 
   return (

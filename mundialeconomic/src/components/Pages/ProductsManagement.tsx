@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 import {
   Store,
-  Package,
   Plus,
   Edit,
   Trash2,
@@ -327,7 +326,7 @@ export default function StoresProductsManager() {
                     }`}
                   >
                     <img
-                      src={store.logo || "/placeholder-store.png"}
+                      src={store.logo}
                       alt={store.name}
                       className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200"
                     />
@@ -360,6 +359,7 @@ export default function StoresProductsManager() {
               <header className="bg-white border-b p-4 lg:p-6 sticky top-0 z-0 shadow-sm">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                   {/* Left section */}
+
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setSidebarOpen(true)}
@@ -410,21 +410,12 @@ export default function StoresProductsManager() {
                     </div>
                   ) : products.length === 0 ? (
                     <div className="text-center py-20">
-                      <Package className="w-90 mx-auto opacity-70 mb-6" />
                       <h3 className="text-lg font-semibold text-gray-700">
                         Nenhum produto encontrado
                       </h3>
                       <p className="text-gray-500 mt-2 mb-6">
                         Comece adicionando um novo produto à loja.
                       </p>
-
-                      {/* Botão também visível no estado vazio */}
-                      <button
-                        onClick={() => openModal()}
-                        className="px-5 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 shadow transition"
-                      >
-                        Adicionar Produto
-                      </button>
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -476,8 +467,15 @@ export default function StoresProductsManager() {
               </div>
             </>
           ) : (
-            <div className="flex flex-1 items-center justify-center text-gray-600">
-              <Package />
+            <div className="flex flex-col items-center justify-center text-gray-600">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden flex flex-1 items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                aria-label="Abrir menu lateral"
+              >
+                Ver lojas
+                <Store className="w-6 h-6" />
+              </button>
               Selecione uma loja para visualizar os produtos.
             </div>
           )}

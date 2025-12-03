@@ -19,4 +19,5 @@ export interface StoreData {
   badge?: string;
   status: string;
   products: ProductDetail[];
+  website: string;
 }

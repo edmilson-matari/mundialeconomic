@@ -89,7 +89,7 @@ export default function StoreDetail() {
                 </p>
               </div>
               <WhatsAppButton
-                phone={store.phone} // número da loja (Angola)
+                link={store.website}
                 storeName={store.name}
                 productName={" "}
               />

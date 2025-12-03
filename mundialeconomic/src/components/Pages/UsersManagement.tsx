@@ -97,7 +97,6 @@ function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
     name: "",
     email: "",
     password: "",
-    role: "Customer" as "Admin" | "Manager" | "Seller" | "Customer",
   });
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string>(
@@ -134,38 +133,29 @@ function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
 
     try {
       // 1. Cadastrar no Auth do Supabase
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: { data: { name: form.name, role: form.role } },
-      });
+      const { data, error } = await supabase
+        .from("admins")
+        .select("*")
+        .single();
 
-      if (authError) throw authError;
-      if (!authData.user) throw new Error("Usuário não criado");
+      if (error) throw error;
+      if (!data) throw new Error("Usuário não criado");
 
       // 2. Upload da foto (opcional)
       let avatarUrl = "/default-avatar.png";
       if (avatar) {
         const fileExt = avatar.name.split(".").pop();
-        const fileName = `${authData.user.id}.${fileExt}`;
+        const fileName = `${data.name}.${fileExt}`;
         const { error: uploadError } = await supabase.storage
-          .from("avatars")
-          .upload(fileName, avatar, { upsert: true });
-
+          .from("users")
+          .upload(`img_users/${fileName}`, avatar, { upsert: true });
         if (uploadError) throw uploadError;
-
-        const { data } = supabase.storage
-          .from("avatars")
-          .getPublicUrl(fileName);
-        avatarUrl = data.publicUrl;
       }
 
       // 3. Salvar perfil na tabela profiles (ou users)
-      const { error: profileError } = await supabase.from("profiles").upsert({
-        id: authData.user.id,
+      const { error: profileError } = await supabase.from("admins").upsert({
         name: form.name,
         email: form.email,
-        role: form.role,
         avatar_url: avatarUrl,
         status: "Active",
         created_at: new Date().toISOString(),
@@ -178,7 +168,7 @@ function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
         onUserAdded();
         onClose();
         // Reset form
-        setForm({ name: "", email: "", password: "", role: "Customer" });
+        setForm({ name: "", email: "", password: "" });
         setAvatar(null);
         setAvatarPreview("/default-avatar.png");
       }, 1500);
@@ -190,16 +180,6 @@ function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getRoleColor = (role: string) => {
-    const colors = {
-      Admin: "bg-purple-100 text-purple-700",
-      Manager: "bg-blue-100 text-blue-700",
-      Seller: "bg-orange-100 text-orange-700",
-      Customer: "bg-gray-100 text-gray-700",
-    };
-    return colors[role as keyof typeof colors] || colors.Customer;
   };
 
   return (
@@ -270,36 +250,6 @@ function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
               className="px-5 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500"
               required
             />
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cargo
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {(["Customer", "Seller", "Manager", "Admin"] as const).map(
-                  (role) => (
-                    <button
-                      key={role}
-                      type="button"
-                      onClick={() => setForm({ ...form, role })}
-                      className={`py-3 px-4 rounded-xl border-2 font-medium transition-all ${
-                        form.role === role
-                          ? `border-orange-500 ${getRoleColor(role)} shadow-lg`
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      {role === "Customer"
-                        ? "Cliente"
-                        : role === "Seller"
-                        ? "Vendedor"
-                        : role === "Manager"
-                        ? "Gerente"
-                        : "Administrador"}
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
           </div>
 
           {/* Mensagem */}
