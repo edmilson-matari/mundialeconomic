@@ -265,12 +265,9 @@ export default function Navbar() {
 
             {/* Mobile Buttons */}
             <div className="flex items-center gap-2 lg:hidden">
-              <a
-                href="tel:+244923456789"
-                className="bg-orange-500 rounded-full"
-              >
+              <Link to={"/mototaxi"} className="bg-orange-500 rounded-full">
                 <img src={mototaxi_img} width={60} height={60} alt="mototaxi" />
-              </a>
+              </Link>
               <button onClick={() => setMobileOpen(!mobileOpen)}>
                 {mobileOpen ? (
                   <X className="h-7 w-7" />

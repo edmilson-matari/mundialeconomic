@@ -13,6 +13,7 @@ import CreateAccount from "./components/Pages/CreateAccount";
 import ProductsManagement from "./components/Pages/ProductsManagement";
 import Analytics from "./components/Pages/Analytics";
 import ProductDetailPage from "./components/Pages/ProductDetail";
+import MotoTaxiBooking from "./components/Pages/Mototaxi";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
@@ -87,6 +88,10 @@ const App = () => {
         {
           path: "/shops-details",
           element: <ShopsDetails />,
+        },
+        {
+          path: "/mototaxi",
+          element: <MotoTaxiBooking />,
         },
       ],
     },
