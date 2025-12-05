@@ -6,7 +6,7 @@ export default function ManagementPage() {
       <PageHeader
         title="Usuários"
         breadcrumb={["Home", "Usuários"]}
-        showAddShop={true}
+        showAddShop={false}
       />
       <UserManagement />
     </>

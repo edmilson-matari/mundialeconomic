@@ -141,7 +141,7 @@ export default function EditStoreModal({
       {/* Modal com scroll apenas no conteúdo */}
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
         {/* HEADER FIXO */}
-        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-t-3xl shrink-0">
+        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-t-3xl shrink-0">
           <div className="flex items-center gap-4">
             <StoreIcon className="w-10 h-10" />
             <div>

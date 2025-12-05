@@ -30,7 +30,7 @@ export default function MobileCompactProductCard({
   return (
     // block em mobile, hidden em sm+ (640px+)
     <div className="block sm:hidden w-full">
-      <Link to={`/lojas/${product.stores.id}`} className="block w-full">
+      <Link to={`/producto/${product.id}`} className="block w-full">
         <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200">
           {/* Imagem com aspect ratio fixo para alinhamento perfeito */}
           <div className="aspect-[3/4] bg-gray-50 relative">
@@ -54,10 +54,10 @@ export default function MobileCompactProductCard({
 
           {/* Preço e Rating */}
           <div className="p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-orange-600">
+            <div className="">
+              <div className="text-lg font-bold text-orange-600">
                 Kz {product.price.toLocaleString("pt-AO")}
-              </span>
+              </div>
 
               <div className="flex items-center gap-1">
                 {renderStars()}

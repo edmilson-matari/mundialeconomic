@@ -7,7 +7,6 @@ import {
   X,
   Search,
   ShoppingCart,
-  Phone,
   ChevronDown,
   User,
   Heart,
@@ -17,6 +16,7 @@ import {
 } from "lucide-react";
 import { categories } from "./Types/categories";
 import supabase from "../supabase-client";
+import mototaxi_img from "../default_img/mototaxi.png";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -208,12 +208,12 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Buttons */}
-            <div className="flex items-center gap-3 lg:hidden">
+            <div className="flex items-center gap-2 lg:hidden">
               <a
                 href="tel:+244923456789"
-                className="p-3 bg-orange-600 rounded-lg"
+                className="bg-orange-600 rounded-full"
               >
-                <Phone className="h-5 w-5 text-white" />
+                <img src={mototaxi_img} width={90} height={90} alt="mototaxi" />
               </a>
               <button onClick={() => setMobileOpen(!mobileOpen)}>
                 {mobileOpen ? (

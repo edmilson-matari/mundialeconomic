@@ -85,10 +85,12 @@ export default function HotDealCard({ product }: HotDealCardProps) {
           {/* Botões - sempre na mesma posição */}
           <div className="mt-6 flex gap-3">
             {/* Adicionar ao Carrinho */}
-            <button className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
-              <ShoppingCart className="w-5 h-5" />
-              <span>Adicionar</span>
-            </button>
+            <Link to={`/producto/${product.id}`}>
+              <button className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+                <ShoppingCart className="w-5 h-5" />
+                <span>Ver Producto</span>
+              </button>
+            </Link>
 
             {/* Visitar Loja */}
             <Link to={`/lojas/${product.stores.id}`} className="flex-1">

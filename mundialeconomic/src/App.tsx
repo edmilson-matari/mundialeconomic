@@ -12,6 +12,7 @@ import UserLogin from "./components/Pages/UserLogin";
 import CreateAccount from "./components/Pages/CreateAccount";
 import ProductsManagement from "./components/Pages/ProductsManagement";
 import Analytics from "./components/Pages/Analytics";
+import ProductDetailPage from "./components/Pages/ProductDetail";
 const App = () => {
   const Shops = lazy(() => import("./components/Pages/Shops"));
   const Home = lazy(() => import("./components/Pages/Home"));
@@ -74,6 +75,10 @@ const App = () => {
         {
           path: "/lojas",
           element: <Shops />,
+        },
+        {
+          path: "/producto/:id",
+          element: <ProductDetailPage />,
         },
         {
           path: "/contacto",

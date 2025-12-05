@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="p-4 flex flex-col justify-between h-48 md:h-52 lg:h-56">
           {/* Store Info */}
           <p className="text-xs text-orange-600 font-medium truncate">
-            from {store.name}
+            de {store.name}
           </p>
 
           {/* Product Name */}
