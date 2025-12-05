@@ -267,7 +267,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2 lg:hidden">
               <a
                 href="tel:+244923456789"
-                className="border border-orange-500 rounded-full"
+                className="bg-orange-500 rounded-full"
               >
                 <img src={mototaxi_img} width={60} height={60} alt="mototaxi" />
               </a>
