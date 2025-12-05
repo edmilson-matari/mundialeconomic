@@ -11,6 +11,26 @@ export default function TopProductsWithStoreContext() {
     "new"
   );
   const [product, setProduct] = useState<ProductDetail[]>([]);
+  function getTwoRandomPerStore(products: ProductDetail[]): ProductDetail[] {
+    const grouped = products.reduce((acc, product) => {
+      const key = product.stores.name;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(product);
+      return acc;
+    }, {} as Record<string, ProductDetail[]>);
+
+    const result: ProductDetail[] = [];
+
+    Object.values(grouped).forEach((storeProducts) => {
+      const shuffled = storeProducts.sort(() => Math.random() - 0.5);
+      result.push(...shuffled.slice(0, 2)); // pega só os 2 primeiros
+    });
+
+    // Embaralha tudo no final
+    return result.sort(() => Math.random() - 0.5);
+  }
+
+  // Uso:
 
   useEffect(() => {
     const fetchTopProducts = async () => {
@@ -25,6 +45,7 @@ export default function TopProductsWithStoreContext() {
     };
     fetchTopProducts();
   }, []);
+  const listaAleatoria = getTwoRandomPerStore(product);
 
   return (
     <section className="py-16 bg-gray-100">
@@ -61,12 +82,12 @@ export default function TopProductsWithStoreContext() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-2 gap-3 sm:hidden">
-          {product.map((prod) => (
+          {listaAleatoria.map((prod) => (
             <MobileCompactProductCard key={prod.id} product={prod} />
           ))}
         </div>
         <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-          {product
+          {listaAleatoria
             .slice(0, 3) // Mostra apenas os 3 primeiros
             .map((prod) => (
               <HotDealCard key={prod.id} product={prod} />

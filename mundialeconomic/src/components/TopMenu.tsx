@@ -17,6 +17,8 @@ import {
 import { categories } from "./Types/categories";
 import supabase from "../supabase-client";
 import mototaxi_img from "../default_img/mototaxi.png";
+import type { StoreData } from "./Types/store";
+import type { ProductDetail } from "./Types/product";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,6 +62,60 @@ export default function Navbar() {
     await supabase.auth.signOut();
     setUser(null);
     navigate("/login-usuario");
+  };
+
+  const searchStores = async (query: string) => {
+    return await supabase
+      .from("stores")
+      .select("*")
+      .ilike("name", `%${query}%`);
+  };
+
+  const searchProducts = async (query: string) => {
+    return await supabase
+      .from("products")
+      .select("*, stores(name, id)")
+      .ilike("productName", `%${query}%`);
+  };
+
+  const searchAll = async (query: string) => {
+    const [stores, products] = await Promise.all([
+      searchStores(query),
+      searchProducts(query),
+    ]);
+
+    return {
+      stores: stores.data || [],
+      products: products.data || [],
+    };
+  };
+
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<{
+    stores: StoreData[];
+    products: ProductDetail[];
+  }>({
+    stores: [],
+    products: [],
+  });
+
+  const handleSearch = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const q = e.target.value;
+    setQuery(q);
+
+    if (!q.trim()) {
+      setResults({ stores: [], products: [] });
+      return;
+    }
+
+    const res = await searchAll(q);
+
+    setResults({
+      stores: res.stores ?? [],
+      products: res.products ?? [],
+    });
   };
 
   return (
@@ -211,9 +267,9 @@ export default function Navbar() {
             <div className="flex items-center gap-2 lg:hidden">
               <a
                 href="tel:+244923456789"
-                className="bg-orange-600 rounded-full"
+                className="border border-orange-500 rounded-full"
               >
-                <img src={mototaxi_img} width={90} height={90} alt="mototaxi" />
+                <img src={mototaxi_img} width={60} height={60} alt="mototaxi" />
               </a>
               <button onClick={() => setMobileOpen(!mobileOpen)}>
                 {mobileOpen ? (
@@ -237,10 +293,76 @@ export default function Navbar() {
             <div className="relative">
               <input
                 type="text"
+                value={query}
+                onChange={handleSearch}
                 placeholder="Pesquisar..."
                 className="w-full pl-4 pr-12 py-3.5 border rounded-lg focus:ring-2 focus:ring-orange-500"
               />
-              <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
+
+              <div className="mt-4 max-h-96 overflow-y-auto pr-2">
+                {(results.stores.length > 0 || results.products.length > 0) && (
+                  <div className="space-y-6">
+                    {/* STORES */}
+                    {results.stores.length > 0 && (
+                      <div>
+                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                          Lojas
+                        </h2>
+
+                        <div className="space-y-2">
+                          {results.stores.map((store) => (
+                            <Link
+                              key={store.id}
+                              to={`/lojas/${store.id}`}
+                              onClick={() => setMobileOpen(!mobileOpen)}
+                            >
+                              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
+                                <p className="font-medium text-gray-800">
+                                  {store.name}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* PRODUCTS */}
+                    {results.products.length > 0 && (
+                      <div>
+                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                          Productos
+                        </h2>
+
+                        <div className="space-y-2">
+                          {results.products.map((product) => (
+                            <Link
+                              key={product.id}
+                              to={`/producto/${product.id}`}
+                              onClick={() => setMobileOpen(!mobileOpen)}
+                            >
+                              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer">
+                                <p className="font-medium text-gray-900">
+                                  {product.productName}
+                                </p>
+
+                                {product.stores?.name && (
+                                  <p className="text-sm text-gray-500 mt-1">
+                                    de{" "}
+                                    <span className="font-semibold">
+                                      {product.stores.name}
+                                    </span>
+                                  </p>
+                                )}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Categories */}

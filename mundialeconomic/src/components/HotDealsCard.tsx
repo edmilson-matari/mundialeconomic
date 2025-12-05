@@ -86,7 +86,7 @@ export default function HotDealCard({ product }: HotDealCardProps) {
           <div className="mt-6 flex gap-3">
             {/* Adicionar ao Carrinho */}
             <Link to={`/producto/${product.id}`}>
-              <button className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-orange-600 hover:text-white-600 hover:bg-white-50 transition-all duration-200 shadow-sm hover:shadow-md">
                 <ShoppingCart className="w-5 h-5" />
                 <span>Ver Producto</span>
               </button>
@@ -96,7 +96,7 @@ export default function HotDealCard({ product }: HotDealCardProps) {
             <Link to={`/lojas/${product.stores.id}`} className="flex-1">
               <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-orange-600 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 shadow-sm hover:shadow-md">
                 <Store className="w-5 h-5" />
-                <span>Visitar Loja</span>
+                <span>Ver Loja</span>
               </button>
             </Link>
           </div>

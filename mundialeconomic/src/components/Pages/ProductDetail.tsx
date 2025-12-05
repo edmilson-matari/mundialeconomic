@@ -121,7 +121,7 @@ export default function ProductDetail() {
           <div className="relative">
             <div className="aspect-square overflow-hidden rounded-2xl bg-white shadow-2xl">
               <img
-                src={product.image_url || "/placeholder.jpg"}
+                src={product.image_url}
                 alt={product.productName}
                 className="w-full h-full object-cover"
               />
