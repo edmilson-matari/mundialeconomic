@@ -1,5 +1,5 @@
 import ProductCarousel from "../ProductCarousel";
-import HotDeals from "../HotDeals";
+//import HotDeals from "../HotDeals";
 import TopProductsWithStoreContext from "../TopProductsWithStoreContext";
 import PromotionBanners from "../PromotionBanners";
 import { useNavigation } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function Home() {
       {isLoading && <FallBack />}
       <div>
         <ProductCarousel />
-        <HotDeals />
+        {/*<HotDeals />*/}
         <PromotionBanners />
         <TopProductsWithStoreContext />
       </div>
