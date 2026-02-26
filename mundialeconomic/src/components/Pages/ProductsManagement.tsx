@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import supabase from "../../supabase-client";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 interface StoreType {
   id: number;
@@ -376,7 +377,7 @@ export default function StoresProductsManager() {
                     />
 
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">
+                      <h2 className="text-sm md:text-xl font-bold text-gray-900">
                         {selectedStore.name}
                       </h2>
                       <p className="text-gray-600 text-sm">
@@ -384,14 +385,20 @@ export default function StoresProductsManager() {
                       </p>
                     </div>
                   </div>
-
+                  <Link to={`/lojas/${selectedStore.id}`}>
+                    <button
+                      onClick={() => openModal()}
+                      className="flex items-center gap-2 px-4 py-3 bg-orange-600 text-white rounded-xl shadow hover:bg-orange-700 transition font-medium"
+                    >
+                      Ver loja
+                    </button>
+                  </Link>
                   {/* Botão de adicionar produto (agora aparece no desktop também) */}
                   <button
                     onClick={() => openModal()}
                     className="flex items-center gap-2 px-4 py-3 bg-orange-600 text-white rounded-xl shadow hover:bg-orange-700 transition font-medium"
                   >
                     <Plus className="w-5 h-5" />
-                    Novo Produto
                   </button>
                 </div>
               </header>
