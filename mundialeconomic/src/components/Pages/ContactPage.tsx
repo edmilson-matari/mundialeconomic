@@ -94,25 +94,7 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold text-gray-800 mb-3">Telefone</h3>
               <p className="text-gray-600">
                 <a
-                  href="tel:+244923456789"
-                  className="hover:text-orange-600 font-semibold"
-                >
-                  +244 941 043 977
-                </a>
-              </p>
-              <h4 className="text-sm text-gray-800 mb-3">DIREÇÃO COMERCIAL</h4>
-              <p className="text-gray-600 mb-5">
-                <a
-                  href="tel:+244923456789"
-                  className="hover:text-orange-600 font-semibold"
-                >
-                  +244 941 043 977
-                </a>
-              </p>
-              <h4 className="text-sm text-gray-800 mb-3">DIREÇÃO FINANCEIRA</h4>
-              <p className="text-gray-600">
-                <a
-                  href="tel:+244923456789"
+                  href="tel:+244941043977"
                   className="hover:text-orange-600 font-semibold"
                 >
                   +244 941 043 977
