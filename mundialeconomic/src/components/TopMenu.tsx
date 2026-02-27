@@ -251,7 +251,7 @@ export default function Navbar() {
 
               {/* Cart */}
               <Link
-                to="https://www.tchohamba.com/tch%C3%B3hamba-pl%C3%A1sticos-e-papel"
+                to="https://www.tchohamba.com/"
                 className="flex items-center gap-3 bg-gray-800 text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition"
               >
                 {/* <ShoppingCart className="h-6 w-6" /> */}
@@ -268,9 +268,7 @@ export default function Navbar() {
             {/* Mobile Buttons */}
             <div className="flex items-center gap-2 lg:hidden">
               <Link
-                to={
-                  "https://www.tchohamba.com/tch%C3%B3hamba-pl%C3%A1sticos-e-papel"
-                }
+                to={"https://www.tchohamba.com/"}
                 className="rounded-full border p-1 hover:bg-black hover:text-white"
               >
                 Voltar
