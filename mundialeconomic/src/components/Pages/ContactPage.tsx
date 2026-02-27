@@ -81,10 +81,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">Morada</h3>
               <p className="text-gray-600 leading-relaxed">
-                Rua do Comércio, Nº 123
-                <br />
-                Talatona, Luanda Sul
-                <br />
+                Escritório: Km 30 de Viana.
+                <br></br>
                 Luanda, Angola
               </p>
             </div>
@@ -99,17 +97,26 @@ export default function ContactPage() {
                   href="tel:+244923456789"
                   className="hover:text-orange-600 font-semibold"
                 >
-                  +244 923 456 789
-                </a>
-                <br />
-                <a href="tel:+244934567890" className="hover:text-orange-600">
-                  +244 934 567 890
+                  +244 941 043 977
                 </a>
               </p>
-              <p className="text-sm text-gray-500 mt-3">
-                Seg a Sex: 08h00 – 18h00
-                <br />
-                Sábado: 09h00 – 13h00
+              <h4 className="text-sm text-gray-800 mb-3">DIREÇÃO COMERCIAL</h4>
+              <p className="text-gray-600 mb-5">
+                <a
+                  href="tel:+244923456789"
+                  className="hover:text-orange-600 font-semibold"
+                >
+                  +244 941 043 977
+                </a>
+              </p>
+              <h4 className="text-sm text-gray-800 mb-3">DIREÇÃO FINANCEIRA</h4>
+              <p className="text-gray-600">
+                <a
+                  href="tel:+244923456789"
+                  className="hover:text-orange-600 font-semibold"
+                >
+                  +244 941 043 977
+                </a>
               </p>
             </div>
 
@@ -120,17 +127,10 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold text-gray-800 mb-3">Email</h3>
               <p className="text-gray-600">
                 <a
-                  href="mailto:suporte@mundialeconomico.com"
+                  href="mailto:info@tchohamba.com"
                   className="hover:text-orange-600 font-semibold"
                 >
-                  suporte@mundialeconomico.com
-                </a>
-                <br />
-                <a
-                  href="mailto:vendas@mundialeconomico.com"
-                  className="hover:text-orange-600"
-                >
-                  vendas@mundialeconomico.com
+                  info@tchohamba.com
                 </a>
               </p>
               <p className="text-sm text-gray-500 mt-3">
@@ -255,10 +255,11 @@ export default function ContactPage() {
                 </h3>
                 <ul className="space-y-2 text-gray-700">
                   <li>
-                    <strong>Segunda a Sexta:</strong> 08:00 – 18:00
+                    <strong>Segunda a Sexta:</strong> 08:00 – 12:30 | 14:00 -
+                    17:30
                   </li>
                   <li>
-                    <strong>Sábado:</strong> 09:00 – 13:00
+                    <strong>Sábado:</strong> 08:00 – 12:00
                   </li>
                   <li>
                     <strong>Domingo:</strong> Fechado
