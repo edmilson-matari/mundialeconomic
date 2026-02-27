@@ -8,16 +8,19 @@ import MobileCompactProductCard from "../components/MobileCompactProductCard";
 
 export default function TopProductsWithStoreContext() {
   const [activeTab, setActiveTab] = useState<"new" | "popular" | "bestseller">(
-    "new"
+    "new",
   );
   const [product, setProduct] = useState<ProductDetail[]>([]);
   function getTwoRandomPerStore(products: ProductDetail[]): ProductDetail[] {
-    const grouped = products.reduce((acc, product) => {
-      const key = product.stores.name;
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(product);
-      return acc;
-    }, {} as Record<string, ProductDetail[]>);
+    const grouped = products.reduce(
+      (acc, product) => {
+        const key = product.stores.name;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(product);
+        return acc;
+      },
+      {} as Record<string, ProductDetail[]>,
+    );
 
     const result: ProductDetail[] = [];
 
@@ -56,7 +59,7 @@ export default function TopProductsWithStoreContext() {
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
               TOP PRODUCTOS
             </h2>
-            <div className="w-24 h-1 bg-orange-500 mt-2"></div>
+            <div className="w-24 h-1 bg-black mt-2"></div>
           </div>
 
           <div className="flex mt-6 sm:mt-0 bg-white rounded overflow-hidden shadow-sm">
@@ -73,8 +76,8 @@ export default function TopProductsWithStoreContext() {
                 {tab === "new"
                   ? "Novos Productos"
                   : tab === "popular"
-                  ? "Productos Populares"
-                  : "Mais Vendidos"}
+                    ? "Productos Populares"
+                    : "Mais Vendidos"}
               </button>
             ))}
           </div>

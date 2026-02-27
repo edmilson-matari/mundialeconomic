@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function ProductCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
-    [Autoplay({ delay: 5000, stopOnInteraction: true })]
+    [Autoplay({ delay: 5000, stopOnInteraction: true })],
   );
 
   const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
@@ -16,30 +16,32 @@ export default function ProductCarousel() {
 
   const slides = [
     {
-      title: "Enlatados de Qualidade",
-      highlight: "ALIMENTOS",
-      description: "Encontre os melhores enlatados para a sua refeição.",
+      title: "Mobiliário",
+      highlight: "Tchoamba Plásticos e Papel",
+      description:
+        "Versáteis, adequadas para áreas internas e externas (jardins, piscinas, restaurantes",
       btnText: "Explorar Lojas",
       image:
-        "https://img.freepik.com/vetores-gratis/conjunto-de-diferentes-alimentos-enlatados-e-alimentos-em-potes-isolados_1308-47815.jpg?semt=ais_hybrid&w=740&q=80",
+        "https://images.tcdn.com.br/img/img_prod/836117/kit_mesa_e_cadeira_plastica_11262_1_c28da0b8a18e40dbfe94bbc4ce0f16b5.png",
       colors: ["#fc0808ff", "#e41212ff", "#ff0000ff"],
     },
     {
-      title: "Electônicos de Qualidade",
-      highlight: "ELECTRÔNICOS",
+      title: "Automóveis",
+      highlight: "Tchoamba Automóvel",
       description:
-        "Se está a procura de um dispositivo novo, aqui você encontra.",
+        "Se está a procura de um carro este é lugar ideal para o achar",
       btnText: "Explorar Lojas",
-      image: "https://eshowmagazine.com/wp-content/uploads/electronica.jpeg",
+      image:
+        "https://ireland.apollo.olxcdn.com/v1/files/sgyifskb14di1-STDVTLPT/image;s=644x461",
       colors: ["#2C1810", "#D4A574", "#8B4513"],
     },
     {
-      title: "Compre bebidas de qualidade",
-      highlight: "BEBIDAS",
-      description: "O melhor das bebidas para si e aqueles de quem gosta.",
+      title: "Imobiliária de Qualidade",
+      highlight: "Tchoamba Imovéis",
+      description: "A casa dos seus sonhos está aqui",
       btnText: "Explorar Lojas",
       image:
-        "https://angola24horas.com/media/k2/items/cache/1d5e8a5e85f2a02961d91f2ddb7fc83c_XL.jpg",
+        "https://grupoboavida.co.ao/wp-content/uploads/2025/02/20240828_143037.webp",
       colors: ["#1a1a1a", "#434343", "#666666"],
     },
   ];
@@ -54,11 +56,13 @@ export default function ProductCarousel() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                   {/* Text Content */}
                   <div className="text-center lg:text-left space-y-6 order-2 lg:order-1">
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
-                      {slide.title} <br />
-                      <span className="text-orange-400">{slide.highlight}</span>
-                    </h1>
-
+                    <span className="text-5xl md:text-6xl font-bold text-gray-900">
+                      {slide.title}
+                    </span>
+                    <br />
+                    <span className="font-bold text-xl text-black">
+                      {slide.highlight}
+                    </span>
                     <p className="text-gray-600 text-lg max-w-lg mx-auto lg:mx-0">
                       {slide.description}
                     </p>

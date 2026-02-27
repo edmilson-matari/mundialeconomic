@@ -25,10 +25,10 @@ export default function ProductsTable() {
   const [stores, setStores] = useState<StoreData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(
-    null
+    null,
   );
   const [quickViewProduct, setQuickViewProduct] = useState<StoreData | null>(
-    null
+    null,
   );
   const [editingProduct, setEditingProduct] = useState<any>(null);
 
@@ -54,7 +54,7 @@ export default function ProductsTable() {
   const filtered = stores.filter(
     (p) =>
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.owner.toLowerCase().includes(searchTerm.toLowerCase())
+      p.owner.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleDuplicate = (p: any) => {
@@ -69,13 +69,13 @@ export default function ProductsTable() {
 
   const handleSaveEdit = () => {
     setStores((prev) =>
-      prev.map((p) => (p.id === editingProduct.id ? editingProduct : p))
+      prev.map((p) => (p.id === editingProduct.id ? editingProduct : p)),
     );
     setEditingProduct(null);
     alert("Produto atualizado com sucesso!");
   };
 
-  const deleteStore = async (id: Number) => {
+  const deleteStore = async (id: number) => {
     const { error } = await supabase.from("stores").delete().eq("id", id);
     if (error) {
       console.log("error deleting store: ", error);

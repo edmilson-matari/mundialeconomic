@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import tchohambaLogo from "../default_img/tchohamba_logo.png";
 
 export default function EcommerceFooter() {
   return (
@@ -10,10 +10,14 @@ export default function EcommerceFooter() {
             {/* Marca + Informações de Contato */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <ShoppingCart className="h-10 w-10 text-orange-500" />
+                <img
+                  src={tchohambaLogo}
+                  alt="Logo da Tchohamba"
+                  style={{ width: 50 }}
+                />
                 <div>
                   <h3 className="text-2xl font-bold text-white">
-                    Mundial Económico
+                    Grupo Tchohamba
                   </h3>
                   <p className="text-sm text-gray-400">
                     Comprar feito de maneira fácil

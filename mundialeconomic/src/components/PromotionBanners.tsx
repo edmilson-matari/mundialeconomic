@@ -8,15 +8,15 @@ export default function PromotionBanners() {
       subtitle: "Descontos até 30%",
       cta: "Comprar agora",
       image:
-        "https://ogrowthmarketer.com.br/wp-content/uploads/2024/08/Preto-Lua-Blog-Banner-34.webp",
+        "https://blog.kalunga.com.br/wp-content/uploads/2026/01/material-escolar-2026.webp",
       overlay: "from-black/80 via-black/60 to-transparent",
     },
     {
       title: "Combo de Ofertas",
-      subtitle: "Descontos de até 50%",
+      subtitle: "Vários Productos Novos",
       cta: "Comprar agora",
       image:
-        "https://viverbem.unimed.coop.br/wp-content/uploads/2015/01/alimentos-in-natura.jpg",
+        "https://raja.scene7.com/is/image/Raja/products/balde-do-lixo-com-tampa-basculante-e-pedal_PDT17584.jpg?template=TemplatePictoImage&$ImageMain=M_CB9580AZ_R_G_128_E&$PictoRight=NoPicto&$PictoLeft=NoPicto&resMode=sharp2&op_usm=1.75,0.3,2,0",
       overlay: "from-blue-700/80 via-blue-600/60 to-transparent",
     },
     {
@@ -24,7 +24,7 @@ export default function PromotionBanners() {
       subtitle: "Descontos em compra no site",
       cta: "Comprar agora",
       image:
-        "https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia1025/industria-cosmeticos-atividade-lucrativa-atende-busca-beleza-saude-cpt.jpg",
+        "https://somel.com.br/wp-content/uploads/2022/01/Conjunto-Classic.jpg",
       overlay: "from-teal-700/80 via-teal-600/60 to-transparent",
     },
   ];

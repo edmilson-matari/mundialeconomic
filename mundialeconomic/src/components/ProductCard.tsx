@@ -97,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Buttons */}
           <div className="mt-4 flex gap-2">
-            <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium py-2 rounded-lg transition">
+            <button className="flex-1 bg-black hover:bg-white hover:border hover:text-black hover:bg-orange-700 text-white text-sm font-medium py-2 rounded-lg transition">
               Adicionar
             </button>
             {inStore && (

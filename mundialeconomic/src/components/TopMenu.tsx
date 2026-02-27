@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 import { categories } from "./Types/categories";
 import supabase from "../supabase-client";
-import mototaxi_img from "../default_img/mototaxi.png";
 import type { StoreData } from "./Types/store";
 import type { ProductDetail } from "./Types/product";
+import thohambaLogo from "../default_img/tchohamba_logo.png";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function Navbar() {
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
-      }
+      },
     );
 
     return () => {
@@ -100,7 +100,7 @@ export default function Navbar() {
   });
 
   const handleSearch = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ): Promise<void> => {
     const q = e.target.value;
     setQuery(q);
@@ -127,9 +127,7 @@ export default function Navbar() {
             {/* Mensagem de boas-vindas (esconde em mobile) */}
             <span className="hidden md:block text-gray-400">
               Bem-vindo à{" "}
-              <span className="text-orange-400 font-medium">
-                Mundial Económico
-              </span>
+              <span className="text-orange-400 font-medium">Tchohamba</span>
             </span>
 
             {/* Links com ícones (visíveis em todas as telas) */}
@@ -201,10 +199,14 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              <ShoppingCart className="h-10 w-10 text-orange-600" />
+              <img
+                src={thohambaLogo}
+                alt="Logo da Tchohamba"
+                style={{ width: 50 }}
+              />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Mundial Económico
+                  Grupo Tchohamba
                 </h1>
                 <p className="text-xs text-gray-500 -mt-1">
                   Comprar feito de maneira fácil
@@ -224,9 +226,9 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Pesquise produtos, lojas ou categorias..."
-                  className="w-full pl-44 pr-14 py-3.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full pl-44 pr-14 py-3.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
-                <button className="absolute right-0 top-0 h-full w-14 bg-orange-600 hover:bg-orange-700 rounded-r-lg flex items-center justify-center">
+                <button className="absolute right-0 top-0 h-full w-14 bg-black hover:bg-red-600 rounded-r-lg flex items-center justify-center">
                   <Search className="h-5 w-5 text-white" />
                 </button>
               </div>
@@ -249,24 +251,30 @@ export default function Navbar() {
 
               {/* Cart */}
               <Link
-                to="/carrinho"
+                to="https://www.tchohamba.com/tch%C3%B3hamba-pl%C3%A1sticos-e-papel"
                 className="flex items-center gap-3 bg-gray-800 text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition"
               >
-                <ShoppingCart className="h-6 w-6" />
+                {/* <ShoppingCart className="h-6 w-6" /> */}
                 <div className="text-left">
-                  <div className="text-xs opacity-90">Meu Carrinho</div>
-                  <div className="font-bold">0 itens</div>
+                  <div className="text-xs opacity-90">Voltar Para Site</div>
+                  {/*<div className="font-bold">0 itens</div>*/}
                 </div>
-                <span className="bg-orange-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                {/* <span className="bg-orange-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
                   0
-                </span>
+                </span> */}
               </Link>
             </div>
 
             {/* Mobile Buttons */}
             <div className="flex items-center gap-2 lg:hidden">
-              <Link to={"/mototaxi"} className="bg-orange-500 rounded-full">
-                <img src={mototaxi_img} width={60} height={60} alt="mototaxi" />
+              <Link
+                to={
+                  "https://www.tchohamba.com/tch%C3%B3hamba-pl%C3%A1sticos-e-papel"
+                }
+                className="rounded-full border p-1 hover:bg-black hover:text-white"
+              >
+                Voltar
+                {/* <img src={thohambaLogo} width={60} height={60} alt="mototaxi" /> */}
               </Link>
               <button onClick={() => setMobileOpen(!mobileOpen)}>
                 {mobileOpen ? (

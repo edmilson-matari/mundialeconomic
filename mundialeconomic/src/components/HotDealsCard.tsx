@@ -47,8 +47,8 @@ export default function HotDealCard({ product }: HotDealCardProps) {
               {product.badge?.type === "new"
                 ? "NEW"
                 : product.badge?.type === "hot"
-                ? "HOT"
-                : "DISCOUNT"}
+                  ? "HOT"
+                  : "DISCOUNT"}
             </div>
           )}
         </div>
@@ -56,12 +56,12 @@ export default function HotDealCard({ product }: HotDealCardProps) {
         {/* Conteúdo com altura flexível mas controlada */}
         <div className="p-5 flex flex-col flex-grow">
           {/* Nome da loja */}
-          <p className="text-sm font-semibold text-orange-600 truncate">
+          <p className="text-sm font-semibold text-gray-900 truncate">
             {product.stores.name}
           </p>
 
           {/* Nome do produto - sempre 2 linhas */}
-          <h3 className="font-bold text-gray-800 mt-1 line-clamp-2 leading-tight min-h-12">
+          <h3 className="text-xl font-bold mt-1 line-clamp-2 leading-tight min-h-12">
             {product.productName}
           </h3>
 
@@ -76,7 +76,7 @@ export default function HotDealCard({ product }: HotDealCardProps) {
           {/* Preço */}
           <div className="mt-4 flex items-end justify-between">
             <div>
-              <span className="text-3xl font-bold text-orange-600">
+              <span className="text-3xl font-bold text-red-600">
                 Kz {product.price.toLocaleString()}
               </span>
             </div>
@@ -86,7 +86,7 @@ export default function HotDealCard({ product }: HotDealCardProps) {
           <div className="mt-6 flex gap-3">
             {/* Adicionar ao Carrinho */}
             <Link to={`/producto/${product.id}`}>
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-orange-600 hover:text-white-600 hover:bg-white-50 transition-all duration-200 shadow-sm hover:shadow-md">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-gray-600 hover:text-white-600 hover:bg-white-50 transition-all duration-200 shadow-sm hover:shadow-md">
                 <ShoppingCart className="w-5 h-5" />
                 <span>Ver Producto</span>
               </button>
@@ -94,9 +94,8 @@ export default function HotDealCard({ product }: HotDealCardProps) {
 
             {/* Visitar Loja */}
             <Link to={`/lojas/${product.stores.id}`} className="flex-1">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-orange-600 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 shadow-sm hover:shadow-md">
+              <button className="w-full flex items-center justify-center px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:border-gray-600 transition-all duration-200 shadow-sm hover:shadow-md">
                 <Store className="w-5 h-5" />
-                <span>Ver Loja</span>
               </button>
             </Link>
           </div>

@@ -36,7 +36,7 @@ export default function AllStoresList() {
     .filter(
       (store) =>
         store.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        store.category.toLowerCase().includes(searchQuery.toLowerCase())
+        store.category.toLowerCase().includes(searchQuery.toLowerCase()),
     )
     .sort((a, b) => {
       switch (sortBy) {
@@ -59,7 +59,7 @@ export default function AllStoresList() {
   const totalPages = Math.ceil(totalStores / storesPerPage);
   const paginatedStores = filteredAndSorted.slice(
     (currentPage - 1) * storesPerPage,
-    currentPage * storesPerPage
+    currentPage * storesPerPage,
   );
 
   const renderStars = (rating: number) => (
@@ -97,7 +97,7 @@ export default function AllStoresList() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="mt-4 text-gray-600 font-medium">Carregando...</p>
         </div>
       </div>
@@ -163,8 +163,8 @@ export default function AllStoresList() {
                       store.badge === "new"
                         ? "new"
                         : store.badge === "verified"
-                        ? "verified"
-                        : "top"
+                          ? "verified"
+                          : "top",
                     )}
                   </div>
                 )}
@@ -181,9 +181,7 @@ export default function AllStoresList() {
                   <h3 className="mt-4 text-xl font-bold text-gray-900">
                     {store.name}
                   </h3>
-                  <p className="text-orange-600 font-medium">
-                    {store.category}
-                  </p>
+                  <p className="text-red-600 font-medium">{store.category}</p>
 
                   <div className="flex justify-center items-center gap-2 mt-3">
                     {renderStars(store.rating)}
@@ -194,7 +192,7 @@ export default function AllStoresList() {
                     {store.products.length} Producto(s)
                   </p>
                   <Link to={`/lojas/${store.id}`}>
-                    <button className="mt-6 w-full bg-orange-600 hover:cursor-pointer hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition">
+                    <button className="mt-6 w-full bg-black hover:cursor-pointer hover:bg-white hover:text-black hover:border text-white font-bold py-3 rounded-xl transition">
                       Visitar Loja
                     </button>
                   </Link>
