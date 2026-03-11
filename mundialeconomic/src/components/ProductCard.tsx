@@ -1,8 +1,10 @@
 "use client";
 
-import { Star, Percent } from "lucide-react";
+import { useState } from "react";
+import { Star, Percent, ShoppingCart, Check } from "lucide-react";
 import type { ProductDetail } from "./Types/product";
 import type { StoreData } from "./Types/store";
+import { useCart } from "./useCart";
 
 interface ProductCardProps {
   product: ProductDetail;
@@ -15,6 +17,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   inStore,
   store,
 }) => {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = () => {
+    addItem({
+      id: product.id,
+      productName: product.productName,
+      price: product.price,
+      image_url: product.image_url,
+      storeId: store.id,
+      storeName: store.name,
+      storeLogo: store.logo,
+    });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
   const renderStars = (rating: number) => (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
@@ -37,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={product.image_url}
             alt={product.productName}
-            className="w-full h-60 md:h-72 lg:h-40 object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
           />
 
           {/* Store Logo */}
@@ -66,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col justify-between h-48 md:h-52 lg:h-56">
+        <div className="p-4 flex flex-col gap-2 flex-1">
           {/* Store Info */}
           <p className="text-xs text-orange-600 font-medium truncate">
             de {store.name}
@@ -78,13 +96,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
 
           {/* Rating */}
-          <div className="flex items-center gap-1 mt-2">
+          <div className="flex items-center gap-1">
             {renderStars(product.rating)}
             <span className="text-xs text-gray-500">({product.rating})</span>
           </div>
 
           {/* Price */}
-          <div className="mt-2 flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-gray-900">
               Kz {product.price.toFixed(2)}
             </span>
@@ -96,9 +114,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Buttons */}
-          <div className="mt-4 flex gap-2">
-            <button className="flex-1 bg-black hover:bg-white hover:border hover:text-black hover:bg-orange-700 text-white text-sm font-medium py-2 rounded-lg transition">
-              Adicionar
+          <div className="mt-auto pt-2 flex gap-2">
+            <button
+              onClick={handleAdd}
+              className={`flex-1 flex items-center justify-center gap-1.5 text-white text-sm font-medium py-2 rounded-lg transition ${
+                added ? "bg-green-600" : "bg-black hover:bg-orange-600"
+              }`}
+            >
+              {added ? (
+                <>
+                  <Check className="w-4 h-4" /> Adicionado
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-4 h-4" /> Adicionar
+                </>
+              )}
             </button>
             {inStore && (
               <button className="flex-1 border border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 text-sm font-medium py-2 rounded-lg transition">

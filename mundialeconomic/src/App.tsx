@@ -5,6 +5,7 @@ import AdminLayout from "./components/Layout/AdminLayout";
 import AdminDash from "./components/Pages/AdminDash";
 import Login from "./components/Pages/Login";
 import { AuthProvider, useAuth } from "./components/AuthContext";
+import { CartProvider } from "./components/CartContext";
 import { Loader2 } from "lucide-react";
 import ManagementPage from "./components/Pages/ManagementPage";
 import ContactPage from "./components/Pages/ContactPage";
@@ -98,7 +99,9 @@ const App = () => {
   ]);
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </AuthProvider>
   );
 };

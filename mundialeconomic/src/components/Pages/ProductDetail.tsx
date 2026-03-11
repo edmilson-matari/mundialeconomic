@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Star,
@@ -13,35 +13,38 @@ import {
 } from "lucide-react";
 import supabase from "../../supabase-client";
 import type { ProductDetail } from "../Types/product";
+import { useCart } from "../useCart";
 
 export default function ProductDetail() {
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
   const { id } = useParams();
+  const { addItem } = useCart();
 
-  useEffect(() => {
-    fetchProduct();
-  }, [id]);
-
-  async function fetchProduct() {
+  const fetchProduct = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("products") // nome da sua tabela no Supabase
+        .from("products")
         .select("*, stores (*)")
         .eq("id", id)
         .single();
 
       if (error) throw error;
       setProduct(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erro ao carregar produto:", err);
       alert("Produto não encontrado ou erro de conexão.");
     } finally {
       setLoading(false);
     }
-  }
+  }, [id]);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]);
 
   const isInStock = product && product.stock > 0;
   const hasDiscount =
@@ -49,11 +52,11 @@ export default function ProductDetail() {
 
   const discountPercent = hasDiscount
     ? Math.round(
-        ((product!.oldPrice! - product!.price) / product!.oldPrice!) * 100
+        ((product!.oldPrice! - product!.price) / product!.oldPrice!) * 100,
       )
     : product?.badge?.type === "discount"
-    ? product.badge.percent
-    : null;
+      ? product.badge.percent
+      : null;
 
   const renderBadge = () => {
     if (!product?.badge) return null;
@@ -222,21 +225,39 @@ export default function ProductDetail() {
             <div className="mt-10">
               <button
                 onClick={() => {
+                  if (!product || !isInStock) return;
                   setAddingToCart(true);
                   setTimeout(() => {
+                    addItem({
+                      id: product.id,
+                      productName: product.productName,
+                      price: product.price,
+                      image_url: product.image_url,
+                      storeId: product.stores.id,
+                      storeName: product.stores.name,
+                      storeLogo: product.stores.logo,
+                    });
                     setAddingToCart(false);
-                    alert("Adicionado ao carrinho com sucesso!");
-                  }, 1000);
+                    setAddedToCart(true);
+                    setTimeout(() => setAddedToCart(false), 2000);
+                  }, 600);
                 }}
                 disabled={!isInStock || addingToCart}
                 className={`w-full py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-lg ${
                   isInStock
-                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                    ? addedToCart
+                      ? "bg-green-600 text-white"
+                      : "bg-indigo-600 hover:bg-indigo-700 text-white"
                     : "bg-gray-300 text-gray-600 cursor-not-allowed"
                 } ${addingToCart ? "animate-pulse" : ""}`}
               >
                 {addingToCart ? (
                   "Adicionando..."
+                ) : addedToCart ? (
+                  <>
+                    <Check className="w-6 h-6" />
+                    Adicionado ao Carrinho!
+                  </>
                 ) : isInStock ? (
                   <>
                     <ShoppingCart className="w-6 h-6" />

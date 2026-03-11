@@ -16,7 +16,7 @@ export default function StoreDetail() {
   useEffect(() => {
     const loadStore = async () => {
       setLoading(true);
-      const idNum: Number = parseInt(id);
+      const idNum: number = parseInt(id);
       const { data } = await supabase
         .from("stores")
         .select("*, products (*)")
@@ -103,7 +103,7 @@ export default function StoreDetail() {
             Todos os Productos ({store.products.length})
           </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {store.products.map((prod) => (
               <ProductCard
                 key={prod.id}

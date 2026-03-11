@@ -2,6 +2,8 @@ import { Outlet, useNavigation } from "react-router-dom";
 import { Suspense } from "react";
 import Footer from "../Footer";
 import TopMenu from "../TopMenu";
+import CartDrawer from "../CartDrawer";
+import InstallBanner from "../InstallBanner";
 
 export default function Layout() {
   const navigate = useNavigation();
@@ -14,6 +16,8 @@ export default function Layout() {
         <Outlet />
       </Suspense>
       <Footer />
+      <CartDrawer />
+      <InstallBanner />
     </>
   );
 }
