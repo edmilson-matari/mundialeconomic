@@ -83,11 +83,15 @@ export default function TopProductsWithStoreContext() {
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:hidden">
-          {listaAleatoria.map((prod) => (
-            <MobileCompactProductCard key={prod.id} product={prod} />
-          ))}
+        {/* Products — mobile horizontal scroll */}
+        <div className="sm:hidden -mx-6 px-6">
+          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+            {listaAleatoria.map((prod) => (
+              <div key={prod.id} className="snap-start">
+                <MobileCompactProductCard product={prod} />
+              </div>
+            ))}
+          </div>
         </div>
         <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {listaAleatoria

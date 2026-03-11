@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="w-full">
-      <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100">
+      <div className="bg-white sm:rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border-b sm:border border-gray-100">
         {/* Image Container */}
         <div className="relative w-full">
           {/* Product Image */}

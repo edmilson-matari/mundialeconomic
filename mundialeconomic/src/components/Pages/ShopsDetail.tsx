@@ -103,7 +103,7 @@ export default function StoreDetail() {
             Todos os Productos ({store.products.length})
           </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="-mx-4 sm:mx-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-0 sm:gap-6">
             {store.products.map((prod) => (
               <ProductCard
                 key={prod.id}
