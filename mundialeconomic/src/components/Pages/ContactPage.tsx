@@ -13,8 +13,8 @@ import {
   Facebook,
   Instagram,
   ShoppingCart,
-  Factory,
 } from "lucide-react";
+import WhatsAppButton from "../Whatsapp";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -56,7 +56,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-20">
+      <section className="bg-black text-white py-20">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex justify-center mb-6">
             <div className="p-4 bg-white/20 backdrop-blur-sm rounded-full">
@@ -76,8 +76,8 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Contact Info Cards */}
             <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
-              <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-5">
-                <MapPin className="w-8 h-8 text-orange-600" />
+              <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mb-5">
+                <MapPin className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">Morada</h3>
               <p className="text-gray-600 leading-relaxed">
@@ -88,8 +88,8 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
-              <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-5">
-                <Phone className="w-8 h-8 text-orange-600" />
+              <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mb-5">
+                <Phone className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">Telefone</h3>
               <p className="text-gray-600">
@@ -103,8 +103,8 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition">
-              <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-5">
-                <Mail className="w-8 h-8 text-orange-600" />
+              <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mb-5">
+                <Mail className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">Email</h3>
               <p className="text-gray-600">
@@ -206,7 +206,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:shadow-lg transition flex items-center justify-center gap-3 disabled:opacity-70"
+                  className="w-full md:w-auto px-10 py-4 bg-black text-white font-bold rounded-xl hover:shadow-lg transition flex items-center justify-center gap-3 disabled:opacity-70"
                 >
                   {status === "sending" ? (
                     "A enviar..."
@@ -264,8 +264,11 @@ export default function ContactPage() {
               href="https://wa.me/244923456789"
               className="flex items-center gap-3 bg-green-600 px-8 py-4 rounded-full hover:bg-green-700 transition text-lg font-medium"
             >
-              <Factory className="w-7 h-7" />
-              WhatsApp: +244 923 456 789
+              <WhatsAppButton
+                link="http://chat.whatsapp.com/FLtBzmQgwS2a8z0CDke"
+                storeName="Grupo do Whats"
+                className="w-7 h-7"
+              />
             </a>
             <a
               href="#"
