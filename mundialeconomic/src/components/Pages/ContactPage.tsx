@@ -13,8 +13,8 @@ import {
   Facebook,
   Instagram,
   ShoppingCart,
+  MessageCircle,
 } from "lucide-react";
-import WhatsAppButton from "../Whatsapp";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -254,33 +254,57 @@ export default function ContactPage() {
       </section>
 
       {/* Social & WhatsApp */}
-      <section className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h3 className="text-2xl font-bold mb-8">
+      <section className="bg-gray-900 text-white py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-bold mb-2">
             Fale Connosco Também Por Aqui
           </h3>
-          <div className="flex flex-wrap justify-center gap-6">
+          <p className="text-gray-400 mb-10 text-sm">
+            Escolha o canal que preferir — respondemos rapidamente.
+          </p>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+            {/* WhatsApp group */}
             <a
-              href="https://wa.me/244923456789"
-              className="flex items-center gap-3 bg-green-600 px-8 py-4 rounded-full hover:bg-green-700 transition text-lg font-medium"
+              href="http://chat.whatsapp.com/FLtBzmQgwS2a8z0CDke"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-green-600 hover:bg-green-500 active:bg-green-700 px-7 py-4 rounded-2xl font-semibold text-base transition-all shadow-lg hover:shadow-green-700/40 hover:-translate-y-0.5"
             >
-              <WhatsAppButton
-                link="http://chat.whatsapp.com/FLtBzmQgwS2a8z0CDke"
-                storeName="Grupo do Whats"
-                className="w-7 h-7"
-              />
+              <MessageCircle className="w-5 h-5 flex-shrink-0" />
+              <span>Grupo do WhatsApp</span>
             </a>
+
+            {/* WhatsApp direct */}
             <a
-              href="#"
-              className="p-4 bg-blue-600 rounded-full hover:bg-blue-700 transition"
+              href="https://wa.me/244941043977"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 active:bg-white/5 px-7 py-4 rounded-2xl font-semibold text-base transition-all shadow-lg hover:-translate-y-0.5 border border-white/10"
             >
-              <Facebook className="w-7 h-7" />
+              <Phone className="w-5 h-5 flex-shrink-0" />
+              <span>+244 941 043 977</span>
             </a>
+
+            {/* Facebook */}
             <a
-              href="#"
-              className="p-4 bg-pink-600 rounded-full hover:bg-pink-700 transition"
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 px-7 py-4 rounded-2xl font-semibold text-base transition-all shadow-lg hover:shadow-blue-700/40 hover:-translate-y-0.5"
             >
-              <Instagram className="w-7 h-7" />
+              <Facebook className="w-5 h-5 flex-shrink-0" />
+              <span>Seguir no Facebook</span>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 active:from-pink-700 active:to-purple-700 px-7 py-4 rounded-2xl font-semibold text-base transition-all shadow-lg hover:shadow-pink-700/40 hover:-translate-y-0.5"
+            >
+              <Instagram className="w-5 h-5 flex-shrink-0" />
+              <span>Seguir no Instagram</span>
             </a>
           </div>
         </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Star, Percent, ShoppingCart, Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Star, Percent, ShoppingCart, Check, Eye } from "lucide-react";
 import type { ProductDetail } from "./Types/product";
 import type { StoreData } from "./Types/store";
 import { useCart } from "./useCart";
@@ -12,11 +13,7 @@ interface ProductCardProps {
   store: StoreData;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  inStore,
-  store,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, store }) => {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
@@ -114,10 +111,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Buttons */}
-          <div className="mt-auto pt-2 flex gap-2">
+          <div className="mt-auto pt-2 flex flex-col gap-2">
+            <Link
+              to={`/producto/${product.id}`}
+              className="w-full flex items-center justify-center gap-1.5 border border-orange-500 text-orange-600 hover:bg-orange-50 text-sm font-semibold py-2 rounded-lg transition"
+            >
+              <Eye className="w-4 h-4" /> Ver Detalhes
+            </Link>
             <button
               onClick={handleAdd}
-              className={`flex-1 flex items-center justify-center gap-1.5 text-white text-sm font-medium py-2 rounded-lg transition ${
+              className={`w-full flex items-center justify-center gap-1.5 text-white text-sm font-medium py-2 rounded-lg transition ${
                 added ? "bg-green-600" : "bg-black hover:bg-orange-600"
               }`}
             >
@@ -127,15 +130,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </>
               ) : (
                 <>
-                  <ShoppingCart className="w-4 h-4" /> Adicionar
+                  <ShoppingCart className="w-4 h-4" /> Adicionar ao Carrinho
                 </>
               )}
             </button>
-            {inStore && (
-              <button className="flex-1 border border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 text-sm font-medium py-2 rounded-lg transition">
-                Visitar Loja
-              </button>
-            )}
           </div>
         </div>
       </div>
