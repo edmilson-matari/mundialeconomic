@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ShoppingCart, X, Plus, Minus, Trash2 } from "lucide-react";
 import { useCart } from "./useCart";
 
-const WHATSAPP_NUMBER = "244934951038";
+const WHATSAPP_NUMBER = "244941043977";
 
 export default function CartDrawer() {
   const { items, totalItems, totalPrice, removeItem, updateQty, clearCart } =
