@@ -6,7 +6,6 @@ import {
   Menu,
   X,
   Search,
-  ShoppingCart,
   ChevronDown,
   User,
   Heart,
@@ -151,71 +150,57 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-gray-900 text-gray-300 text-sm border-b border-gray-800">
+      {/* Top Bar — hidden on mobile */}
+      <div className="hidden md:block bg-gray-900 text-gray-300 text-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-11">
-            {/* Mensagem de boas-vindas (esconde em mobile) */}
-            <span className="hidden md:block text-gray-400">
+            {/* Mensagem de boas-vindas */}
+            <span className="text-gray-400">
               Bem-vindo à{" "}
               <span className="text-orange-400 font-medium">Tchohamba</span>
             </span>
 
-            {/* Links com ícones (visíveis em todas as telas) */}
-            <div className="flex items-center gap-5 md:gap-7">
+            {/* Links de conta */}
+            <div className="flex items-center gap-6">
               {!loading && user ? (
-                // USUÁRIO LOGADO → Apenas "Sair"
                 <>
                   <Link
                     to="/conta"
-                    className="flex items-center gap-2 hover:text-white transition group"
+                    className="flex items-center gap-1.5 hover:text-white transition group"
                   >
                     <User className="h-4 w-4 text-gray-400 group-hover:text-white" />
-                    <span className="hidden sm:inline">Minha Conta</span>
+                    Minha Conta
                   </Link>
-
                   <Link
                     to="/wishlist"
-                    className="flex items-center gap-2 hover:text-white transition group"
+                    className="flex items-center gap-1.5 hover:text-white transition group"
                   >
                     <Heart className="h-4 w-4 text-gray-400 group-hover:text-white" />
-                    <span className="hidden sm:inline">Desejos</span>
-                  </Link>
-
-                  <Link
-                    to="/carrinho"
-                    className="flex items-center gap-2 hover:text-white transition group relative"
-                  >
-                    <ShoppingCart className="h-4 w-4 text-gray-400 group-hover:text-white" />
-                    <span className="hidden sm:inline">Carrinho</span>
-                    <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                      3
-                    </span>
+                    Desejos
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 text-white hover:text-orange-400 transition font-medium"
+                    className="flex items-center gap-1.5 hover:text-orange-400 transition"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span className="hidden sm:inline">Sair</span>
+                    Sair
                   </button>
                 </>
               ) : (
-                // USUÁRIO NÃO LOGADO → Links normais
                 <>
                   <Link
                     to="/login-usuario"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition"
+                    className="flex items-center gap-1.5 hover:text-white transition"
                   >
-                    <LogIn className="h-4 w-4 rotate-180" />
-                    <span>Entrar</span>
+                    <LogIn className="h-4 w-4" />
+                    Entrar
                   </Link>
                   <Link
                     to="/registar"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition"
+                    className="flex items-center gap-1.5 hover:text-white transition"
                   >
                     <UserPlus2 className="h-4 w-4" />
-                    <span>Criar Conta</span>
+                    Criar Conta
                   </Link>
                 </>
               )}
@@ -229,17 +214,17 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-2 min-w-0 shrink">
               <img
                 src={thohambaLogo}
                 alt="Logo da Tchohamba"
-                style={{ width: 50 }}
+                className="w-9 h-9 lg:w-12 lg:h-12 object-contain flex-shrink-0"
               />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
+              <div className="min-w-0">
+                <h1 className="text-base lg:text-2xl font-bold text-gray-900 leading-tight truncate">
                   Grupo Tchohamba
                 </h1>
-                <p className="text-xs text-gray-500 -mt-1">
+                <p className="hidden lg:block text-xs text-gray-500 -mt-0.5">
                   Comprar feito de maneira fácil
                 </p>
               </div>
@@ -402,19 +387,38 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Buttons */}
-            <div className="flex items-center gap-2 lg:hidden">
-              <Link
-                to={"https://www.tchohamba.com/"}
-                className="rounded-full border p-1 hover:bg-black hover:text-white"
+            <div className="flex items-center gap-1 lg:hidden flex-shrink-0">
+              <a
+                href="https://www.tchohamba.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-orange-600 border border-gray-200 hover:border-orange-400 rounded-lg px-3 py-2 transition"
               >
-                Voltar
-                {/* <img src={thohambaLogo} width={60} height={60} alt="mototaxi" /> */}
-              </Link>
-              <button onClick={() => setMobileOpen(!mobileOpen)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Site
+              </a>
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition"
+                aria-label="Menu"
+              >
                 {mobileOpen ? (
-                  <X className="h-7 w-7" />
+                  <X className="h-6 w-6" />
                 ) : (
-                  <Menu className="h-7 w-7" />
+                  <Menu className="h-6 w-6" />
                 )}
               </button>
             </div>
@@ -551,20 +555,50 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* Mobile Cart */}
-            <Link
-              to="/carrinho"
-              className="flex justify-between items-center bg-gray-800 text-white px-6 py-4 rounded-xl"
-              onClick={() => setMobileOpen(false)}
-            >
-              <div className="flex items-center gap-4">
-                <ShoppingCart className="h-7 w-7" />
-                <span className="font-bold">Meu Carrinho</span>
-              </div>
-              <span className="bg-orange-500 rounded-full w-10 h-10 flex items-center justify-center font-bold">
-                0
-              </span>
-            </Link>
+            {/* Mobile Auth */}
+            <div className="border-t pt-4">
+              {!loading && user ? (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to="/conta"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-5 py-3.5 rounded-lg text-gray-700 hover:bg-orange-50 font-medium"
+                  >
+                    <User className="h-5 w-5 text-gray-400" />
+                    Minha Conta
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setMobileOpen(false);
+                    }}
+                    className="flex items-center gap-3 px-5 py-3.5 rounded-lg text-red-600 hover:bg-red-50 font-medium w-full text-left"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Terminar Sessão
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-3">
+                  <Link
+                    to="/login-usuario"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex-1 flex items-center justify-center gap-2 border-2 border-gray-800 text-gray-800 font-semibold py-3 rounded-xl hover:bg-gray-800 hover:text-white transition"
+                  >
+                    <LogIn className="h-4 w-4" />
+                    Entrar
+                  </Link>
+                  <Link
+                    to="/registar"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition"
+                  >
+                    <UserPlus2 className="h-4 w-4" />
+                    Criar Conta
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
