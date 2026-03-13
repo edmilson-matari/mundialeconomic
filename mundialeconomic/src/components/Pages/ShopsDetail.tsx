@@ -23,10 +23,10 @@ export default function StoreDetail() {
         .eq("id", idNum)
         .single();
       if (data) setStore(data);
+      setLoading(false);
     };
 
     loadStore();
-    setLoading(false);
   }, [id]);
 
   const renderStars = (rating: number) => (
@@ -56,52 +56,59 @@ export default function StoreDetail() {
   return (
     <>
       <HeroBanner store={store} />
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        {/* Store Info Sidebar (Mobile: Full Width, Desktop: Sticky) */}
-        <div className="mb-12 lg:mb-0 lg:w-80 lg:float-left lg:mr-10">
-          <div className="bg-white rounded-2xl shadow-xl p-6 lg:p-8 lg:sticky lg:top-24">
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-2xl font-bold flex items-center gap-3">
-                  {renderStars(store.rating)}
-                  <span>{store.rating}</span>
-                </h3>
-                <p className="text-gray-600 mt-1">
-                  {store.totalReviews} reviews
-                </p>
-              </div>
-              <div className="border-t pt-6">
-                <div className="flex items-center gap-3 text-gray-700">
-                  <Package className="w-6 h-6 text-orange-600" />
-                  <div>
-                    <p className="font-semibold">
-                      {store.products.length} Productos
-                    </p>
-                    <p className="text-sm text-gray-500">Disponível agora</p>
-                  </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 md:mb-10">
+          <div className="space-y-7">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                Informações da loja
+              </h2>
+            </div>
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold flex items-center gap-3 text-gray-900">
+                {renderStars(store.rating)}
+                <span>{store.rating}</span>
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                {store.totalReviews} reviews
+              </p>
+            </div>
+            <div className="border-t pt-5">
+              <div className="flex items-center gap-3 text-gray-700">
+                <Package className="w-6 h-6 text-orange-600" />
+                <div>
+                  <p className="font-semibold">
+                    {store.products.length} Productos
+                  </p>
+                  <p className="text-sm text-gray-500">Disponível agora</p>
                 </div>
               </div>
-              <div className="border-t pt-6">
-                <h4 className="font-semibold mb-3">Sobre a loja</h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {store.description}
-                </p>
-              </div>
-              <WhatsAppButton
-                link={store.website}
-                storeName={store.name}
-                productName={" "}
-              />
             </div>
+            <div className="border-t pt-5">
+              <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
+                Sobre a loja
+              </h4>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed sm:leading-7">
+                {store.description || "Sem descrição disponível."}
+              </p>
+            </div>
+            <WhatsAppButton
+              link={store.website}
+              storeName={store.name}
+              productName={" "}
+            />
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="lg:pl-96">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-8">
-            Todos os Productos ({store.products.length})
-          </h2>
+        <section className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+          <div className="mb-6 pb-4 border-b">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              Todos os Productos
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              {store.products.length} itens disponíveis
+            </p>
+          </div>
 
           <div className="-mx-4 sm:mx-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-0 sm:gap-6">
             {store.products.map((prod) => (
@@ -113,10 +120,7 @@ export default function StoreDetail() {
               />
             ))}
           </div>
-        </div>
-
-        {/* Clear float */}
-        <div className="clear-both" />
+        </section>
       </div>
     </>
   );
